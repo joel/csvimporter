@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "activesupport", "5.2.8.1"
-  spec.add_dependency "active_warnings"
+  spec.add_dependency "activemodel", "5.2.8.1"
   spec.add_dependency "inherited_class_var"
 
   spec.add_development_dependency "bundler"

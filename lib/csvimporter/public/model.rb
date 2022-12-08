@@ -9,7 +9,7 @@ module Csvimporter
   module Model
     extend ActiveSupport::Concern
 
-    include ActiveWarnings
+    include ActiveModel::Validations
 
     include Base
     include Attributes

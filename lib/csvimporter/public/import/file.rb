@@ -7,7 +7,7 @@ module Csvimporter
     # Represents a csv file and handles parsing to return `Import`
     class File
       extend ActiveModel::Callbacks
-      include ActiveWarnings
+      include ActiveModel::Validations
 
       attr_reader :csv, :row_model_class, :index, :current_row_model, :previous_row_model, :context # -1 = start of file, 0 to infinity = index of row_model, nil = end of file, no row_model
 
@@ -18,9 +18,6 @@ module Csvimporter
       define_model_callbacks :abort, :skip, only: :before
 
       validate { errors.messages.merge!(csv.errors.messages) unless csv.valid? }
-      warnings do
-        validate :headers_invalid_row
-      end
 
       # @param [String] file_path path of csv file
       # @param [Import] row_model_class model class returned for importing

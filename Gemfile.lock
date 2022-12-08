@@ -2,15 +2,13 @@ PATH
   remote: .
   specs:
     csvimporter (0.1.0)
-      active_warnings
+      activemodel (= 5.2.8.1)
       activesupport (= 5.2.8.1)
       inherited_class_var
 
 GEM
   remote: https://rubygems.org/
   specs:
-    active_warnings (0.1.5)
-      activemodel (> 4.1.0)
     activemodel (5.2.8.1)
       activesupport (= 5.2.8.1)
     activesupport (5.2.8.1)

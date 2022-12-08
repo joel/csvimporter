@@ -46,7 +46,7 @@ module Csvimporter
       end
 
       class Model < OpenStruct
-        include ActiveWarnings
+        include ActiveModel::Validations
       end
     end
   end

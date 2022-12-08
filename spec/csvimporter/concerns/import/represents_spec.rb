@@ -123,22 +123,6 @@ describe Csvimporter::Import::Represents do
           subject
           expect(instance.errors.keys).to eql %i[string2 string1]
         end
-
-        context "when called within #using_warnings" do
-          subject { instance.using_warnings { super() } }
-
-          before do
-            instance.warnings.add(:test_model)
-            instance.warnings.add(:string2)
-            instance.warnings.add(:string1)
-          end
-
-          it "removes warnings only" do
-            subject
-            expect(instance.errors.keys).to eql %i[test_model string2 string1]
-            expect(instance.warnings.keys).to eql %i[string2 string1]
-          end
-        end
       end
     end
   end

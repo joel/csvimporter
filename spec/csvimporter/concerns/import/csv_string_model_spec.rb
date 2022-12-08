@@ -116,27 +116,6 @@ describe Csvimporter::Import::ParsedModel do
           end
         end
       end
-
-      context "with warnings" do
-        before do
-          klass.class_eval do
-            warnings { validates :id, length: { minimum: 5 } }
-            parsed_model do
-              warnings { validates :id, presence: true }
-            end
-          end
-        end
-
-        context "with empty row" do
-          let(:source_row) { [""] }
-
-          it "just shows the parsed_model_class validation" do
-            expect(subject).to be true
-            expect(instance.safe?).to be false
-            expect(instance.warnings.full_messages).to eql ["Id can't be blank"]
-          end
-        end
-      end
     end
   end
 
