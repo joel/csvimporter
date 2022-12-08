@@ -85,26 +85,6 @@ describe Csvimporter::Import::File do
       end
     end
 
-    context "with children" do
-      let(:file_path) { parent_6_rows_path }
-      let(:row_model_class) { ParentImportModel }
-
-      it "gets the rows until the end of file" do
-        2.times do |index|
-          row_model = instance.next
-          expect(row_model.class).to eql row_model_class
-          expect(row_model.source_row).to eql %W[firsts#{index} seconds#{index}]
-
-          children = row_model.children
-          expect(children.map(&:source_row)).to eql children.map.with_index { |_c, index| [nil, "seconds#{index}"] }
-        end
-        3.times do
-          expect(instance.next).to be_nil
-          expect(instance.end_of_file?).to be true
-        end
-      end
-    end
-
     context "file_model" do
       let(:file_path) { file_model_1_row_path }
       let(:instance) { described_class.new file_path, FileImportModel }

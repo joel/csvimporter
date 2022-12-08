@@ -13,12 +13,3 @@ end
 class BasicImportModel < BasicRowModel
   include Csvimporter::Import
 end
-
-class ChildImportModel < BasicImportModel
-  validates :string1, absence: true
-  validates :source_row, presence: true # HACK: before changing how children work
-end
-
-class ParentImportModel < BasicImportModel
-  has_many :children, ChildImportModel
-end
