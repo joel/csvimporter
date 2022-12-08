@@ -1,37 +1,35 @@
 PATH
   remote: .
   specs:
-    csvimporter (0.3.5)
+    csvimporter (0.1.0)
+      active_warnings
       activesupport (= 5.2.8.1)
-      structured_warnings
+      inherited_class_var
 
 GEM
   remote: https://rubygems.org/
   specs:
+    active_warnings (0.1.5)
+      activemodel (> 4.1.0)
+    activemodel (5.2.8.1)
+      activesupport (= 5.2.8.1)
     activesupport (5.2.8.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     ast (2.4.2)
-    byebug (11.1.3)
-    coderay (1.1.3)
     concurrent-ruby (1.1.10)
     diff-lcs (1.5.0)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
+    inherited_class_var (1.0.0.beta1)
+      activesupport (>= 4.2)
     json (2.6.3)
-    method_source (1.0.0)
     minitest (5.16.3)
     parallel (1.22.1)
     parser (3.1.3.0)
       ast (~> 2.4.1)
-    pry (0.14.1)
-      coderay (~> 1.1)
-      method_source (~> 1.0)
-    pry-byebug (3.10.1)
-      byebug (~> 11.0)
-      pry (>= 0.13, < 0.15)
     rainbow (3.1.1)
     rake (13.0.6)
     regexp_parser (2.6.1)
@@ -69,7 +67,6 @@ GEM
     rubocop-rspec (2.15.0)
       rubocop (~> 1.33)
     ruby-progressbar (1.11.0)
-    structured_warnings (0.4.0)
     thread_safe (0.3.6)
     tzinfo (1.2.10)
       thread_safe (~> 0.1)
@@ -81,7 +78,6 @@ PLATFORMS
 DEPENDENCIES
   bundler
   csvimporter!
-  pry-byebug
   rake
   rspec
   rubocop

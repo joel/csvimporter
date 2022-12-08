@@ -1,26 +1,15 @@
 # frozen_string_literal: true
 
-begin
-  require "pry"
-rescue LoadError
-end
+$LOAD_PATH.unshift File.expand_path("../lib", __dir__)
 
 require "csvimporter"
 
-# Requires shared contexts
-# in spec/shared_contexts/ and its subdirectories.
-Dir["./spec/shared_contexts/**/*.rb"].sort.each { |f| require f }
+require "#{Dir.pwd}/spec/support/shared_context/with_context.rb"
+Dir["#{Dir.pwd}/spec/support/**/*.rb"].sort.each { |f| require f }
 
-RSpec.configure do |config|
-  # Enable flags like --only-failures and --next-failure
-  config.example_status_persistence_file_path = ".rspec_status"
+RSpec.configure do |c|
+  c.run_all_when_everything_filtered = true
 
-  # Disable RSpec exposing methods globally on `Module` and `main`
-  config.disable_monkey_patching!
-
-  config.expect_with :rspec do |c|
-    c.syntax = :expect
-  end
-  config.filter_run focus: true
-  config.run_all_when_everything_filtered = true
+  c.include CsvFilePaths
+  c.include WithThisThenContext
 end

@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
-RSpec.describe Csvimporter do
-  it "delegates to the model" do
-    expect(described_class::VERSION).to eql("0.3.5")
+require "spec_helper"
+
+describe Csvimporter do
+  it "has a version number" do
+    expect(Csvimporter::VERSION).not_to be_nil
   end
 end

@@ -1,27 +1,19 @@
 # frozen_string_literal: true
 
+class Boolean; end unless defined? Boolean
+
 require "csvimporter/version"
 
 require "active_support"
 require "active_support/dependencies/autoload"
 
-require_relative "csvimporter/configure"
+require "csv"
+require "active_model"
+require "active_warnings"
 
-module Csvimporter
-  extend Configure
-  extend ActiveSupport::Autoload
+require "csvimporter/public/model"
+require "csvimporter/public/model/file_model"
 
-  eager_autoload do
-    autoload :DynamicColumn
-    autoload :CellValue
-    autoload :Configuration
-    autoload :Column
-    autoload :HeaderValue
-    autoload :RowObject
-    autoload :RowObjectType
-    autoload :Exporter
-    autoload :Filters
-  end
-
-  class Error < StandardError; end
-end
+require "csvimporter/public/import"
+require "csvimporter/public/import/file_model"
+require "csvimporter/public/import/file"
