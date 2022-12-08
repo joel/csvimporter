@@ -3,7 +3,6 @@
 require "csvimporter/public/model"
 require "csvimporter/concerns/import/base"
 require "csvimporter/concerns/import/attributes"
-require "csvimporter/concerns/import/represents"
 
 module Csvimporter
   # Include this to with {Model} to have a RowModel for importing csvs.
@@ -14,6 +13,5 @@ module Csvimporter
 
     include Base
     include Attributes
-    include Represents
   end
 end
