@@ -1,0 +1,13 @@
+source 'https://rubygems.org'
+
+# Runtime dependencies
+gem 'activesupport', '~> 7.0'
+gem 'structured_warnings'
+
+# Development dependencies
+gem 'rspec'
+gem 'rake'
+gem 'rubocop'
+gem 'rubocop-performance'
+gem 'rubocop-rake'
+gem 'rubocop-rspec'

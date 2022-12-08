@@ -1,0 +1,86 @@
+name: Tests
+
+on: [ push ]
+
+jobs:
+
+  lint:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      -
+        name: Checkout Source Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: '1'
+      -
+        name: Install ruby 2.7.6
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.6
+      -
+        name: Run Lint
+        run: |
+          gem install rubocop
+          gem install rubocop-performance
+          gem install rubocop-rake
+          gem install rubocop-rspec
+          rubocop --parallel
+  ci:
+
+    needs: lint
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          -
+            name: "Default"
+            ruby: 2.7.6
+            gemfile: Gemfile
+          -
+            ruby: 2.7.6
+            gemfile: gemfiles/Gemfile.5.2
+          -
+            ruby: 2.7.6
+            gemfile: gemfiles/Gemfile.6.1
+          -
+            ruby: 3.0.3
+            gemfile: gemfiles/Gemfile.6.1
+          -
+            ruby: 3.1.2
+            gemfile: gemfiles/Gemfile.7.0
+
+    env:
+      BUNDLE_GEMFILE: "${{ matrix.gemfile }}"
+      BUNDLE_WITHOUT: production
+      BUNDLE_JOBS: 3
+      BUNDLE_RETRY: 3
+
+    steps:
+      -
+        name: Checkout Source Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: '1'
+      -
+        name: Install ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      -
+        name: Set Bundle ${{ matrix.gemfile }}
+        run: |
+          gem update --system
+          gem install bundler
+      -
+        name: Bundle Install ${{ matrix.gemfile }}
+        run: bundle install
+      -
+        name: Run test suite
+        run: |
+          echo $BUNDLE_GEMFILE
+          bundle exec rake
