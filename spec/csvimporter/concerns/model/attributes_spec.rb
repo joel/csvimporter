@@ -57,55 +57,6 @@ describe Csvimporter::Model::Attributes do
         end
       end
 
-      describe "::merge_options" do
-        subject { klass.send(:merge_options, :blah, default: 1) }
-
-        before { klass.send(:column, :blah, type: Integer) }
-
-        it "merges the option" do
-          result = { blah: { type: Integer, default: 1 } }
-
-          expect { subject }.to change(klass, :columns).from(blah: { type: Integer }).to(result)
-          expect(klass.columns_object.raw_value).to eql(result)
-        end
-
-        context "with child class class" do
-          subject do
-            klass.send(:merge_options, :blah, default: 1)
-            child_class.send(:merge_options, :blah, header: "Blah")
-          end
-
-          let(:child_class) { Class.new(klass) }
-
-          it "passes merged option to child, but not to parent" do
-            expect(klass.columns).to eql(blah: { type: Integer })
-            expect(klass.columns_object.raw_value).to eql(blah: { type: Integer })
-
-            expect(child_class.columns).to eql(blah: { type: Integer })
-            expect(child_class.columns_object.raw_value).to eql({})
-
-            subject
-
-            expect(klass.columns).to eql(blah: { type: Integer, default: 1 })
-            expect(klass.columns_object.raw_value).to eql(blah: { type: Integer, default: 1 })
-
-            expect(child_class.columns).to eql(blah: { type: Integer, default: 1, header: "Blah" })
-            expect(child_class.columns_object.raw_value).to eql(blah: { header: "Blah" })
-          end
-
-          context "with multiple columns" do
-            subject { child_class.send(:merge_options, :blah1, default: 1) }
-
-            before { %i[blah1 blah2].each { |column_name| klass.send(:column, column_name, type: Integer) } }
-
-            it "keeps the column_names in the same order" do
-              subject
-              expect(child_class.column_names).to eql %i[blah blah1 blah2]
-            end
-          end
-        end
-      end
-
       describe "::class_to_parse_lambda" do
         subject { klass.class_to_parse_lambda }
 

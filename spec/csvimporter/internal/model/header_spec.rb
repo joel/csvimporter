@@ -22,7 +22,7 @@ describe Csvimporter::Model::Header do
     context "with :header option" do
       let(:row_model_class) do
         Class.new(BasicRowModel) do
-          merge_options :string1, header: "waka"
+          column :string1, header: "waka"
         end
       end
 

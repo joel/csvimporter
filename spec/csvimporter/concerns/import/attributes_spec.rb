@@ -58,23 +58,6 @@ describe Csvimporter::Import::Attributes do
         expect(subject).to eql(string1: "1.01__string1__#<OpenStruct>", string2: "b__string2__#<OpenStruct>")
       end
     end
-
-    describe "#default_changes" do
-      subject { instance.default_changes }
-
-      let(:row_model_class) do
-        Class.new(BasicImportModel) do
-          merge_options :string1, default: 123
-          def self.format_cell(*_args)
-            nil
-          end
-        end
-      end
-
-      it "sets the default" do
-        expect(subject).to eql(string1: [nil, 123])
-      end
-    end
   end
 
   describe "class" do

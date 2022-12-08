@@ -10,7 +10,6 @@ describe Csvimporter::Import::Attribute do
 
     let(:row_model_class) { Class.new BasicImportModel }
     let(:row_model) do
-      row_model_class.send(:merge_options, :string1, options)
       row_model_class.new(source_row)
     end
     let(:options) { {} }

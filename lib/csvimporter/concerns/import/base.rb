@@ -7,9 +7,8 @@ module Csvimporter
     module Base
       extend ActiveSupport::Concern
 
-      # include ActiveModel::Validations
-
       include Inspect
+
       INSPECT_METHODS = %i[source_attributes initialized_at parent context previous].freeze
 
       included do
@@ -36,6 +35,7 @@ module Csvimporter
 
         @previous = options[:previous].try(:dup)
         previous.try(:free_previous)
+
         super(options)
       end
 

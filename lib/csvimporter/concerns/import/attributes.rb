@@ -48,16 +48,6 @@ module Csvimporter
           Attribute.new(column_name, source_row[index += 1], parsed_model_errors[column_name], self)
         end
       end
-
-      class_methods do
-        def merge_options(column_name, options = {})
-          super
-        end
-
-        def define_attribute_method(column_name)
-          super
-        end
-      end
     end
   end
 end
