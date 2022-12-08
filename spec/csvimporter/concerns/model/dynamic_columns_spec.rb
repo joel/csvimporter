@@ -18,7 +18,6 @@ describe Csvimporter::Model::DynamicColumns do
   end
 
   describe "class" do
-
     describe "::dynamic_column_index" do
       subject { row_model_class.dynamic_column_index(:skills) }
 

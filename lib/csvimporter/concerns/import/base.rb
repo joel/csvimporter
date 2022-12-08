@@ -70,25 +70,14 @@ module Csvimporter
         def next(file, context = {})
           csv = file.csv
           csv.skip_headers
-          row_model = nil
+          csv.read_row
 
-          loop do # loop until the next parent or end_of_file? (need to read children rows)
-            csv.read_row
-            row_model ||= new(csv.current_row,
-                              line_number: csv.line_number,
-                              index: file.index,
-                              source_headers: csv.headers,
-                              context: context,
-                              previous: file.previous_row_model)
-
-            return row_model if csv.end_of_file?
-
-            child_row_model = row_model.append_child(csv.next_row)
-            # Is a next parent when there is no children left
-            # or if the next row match a invalid child but a valid parent
-            next_row_is_parent = child_row_model.nil? || (!child_row_model.child? && child_row_model.valid?)
-            return row_model if next_row_is_parent
-          end
+          new(csv.current_row,
+              line_number: csv.line_number,
+              index: file.index,
+              source_headers: csv.headers,
+              context: context,
+              previous: file.previous_row_model)
         end
       end
     end

@@ -70,7 +70,7 @@ module Csvimporter
       # Define default attribute method for a column
       # @param column_name [Symbol] the cell's column_name
       def define_attribute_method(column_name, &block)
-        return unless block_given?
+        return unless block
 
         return if method_defined? column_name
 
