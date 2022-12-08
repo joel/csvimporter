@@ -48,15 +48,6 @@ describe Csvimporter::Model::Attributes do
       describe "::column" do
         subject { klass.send(:column, :blah) }
 
-        it "calls ::check_options with the args" do
-          expect(klass).to receive(:check_options).with(Csvimporter::Model::Header,
-                                                        Csvimporter::Import::ParsedModel::Model,
-                                                        Csvimporter::Import::Attribute,
-                                                        klass,
-                                                        {}).once.and_call_original
-          subject
-        end
-
         context "with invalid option" do
           subject { klass.send(:column, :blah, invalid_option: true) }
 
@@ -120,31 +111,6 @@ describe Csvimporter::Model::Attributes do
 
         it "returns the CLASS_TO_PARSE_LAMBDA" do
           expect(subject).to eql Csvimporter::Import::Attributes::CLASS_TO_PARSE_LAMBDA
-        end
-      end
-
-      describe "::custom_check_options" do
-        subject { klass.custom_check_options(options) }
-
-        context "with invalid :type Option" do
-          let(:options) { { type: Object } }
-
-          it "raises exception" do
-            expect { subject }.to raise_error(":type must be Boolean, String, Integer, Float, DateTime, Date")
-          end
-
-          context "with ::class_to_parse_lambda overwritten" do
-            before do
-              _override = override
-              klass.define_singleton_method(:class_to_parse_lambda) { super().merge(_override) }
-            end
-
-            let(:override) { { Hash => ->(s) { JSON.parse(s) } } }
-
-            it "raises a new type of exception" do
-              expect { subject }.to raise_error(":type must be Boolean, String, Integer, Float, DateTime, Date, Hash")
-            end
-          end
         end
       end
     end

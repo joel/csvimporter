@@ -256,18 +256,4 @@ describe Csvimporter::Import::Attribute do
       end
     end
   end
-
-  describe "class" do
-    describe "::custom_check_options" do
-      subject { described_class.custom_check_options(options) }
-
-      context "with :type and :parse option" do
-        let(:options) { { type: Date, parse: ->(_s) { "haha" } } }
-
-        it "raises exception" do
-          expect { subject }.to raise_error("Use :parse OR :type option, but not both")
-        end
-      end
-    end
-  end
 end

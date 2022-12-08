@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 
 require "csvimporter/internal/model/dynamic_column_header"
-require "csvimporter/concerns/check_options"
 
 module Csvimporter
   module Model
     module DynamicColumns
       extend ActiveSupport::Concern
       include InheritedClassVar
-      include CheckOptions
 
       included do
         inherited_class_hash :dynamic_columns
@@ -61,7 +59,6 @@ module Csvimporter
         # @param column_name [Symbol] column_name
         # @option options [String] :header human friendly string of the column name, by default format_header(column_name)
         def dynamic_column(column_name, options = {})
-          check_options DynamicColumnHeader, options
           dynamic_columns_object.merge(column_name.to_sym => options)
         end
       end

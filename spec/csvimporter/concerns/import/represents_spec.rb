@@ -177,13 +177,6 @@ describe Csvimporter::Import::Represents do
 
       let(:options) { {} }
 
-      it "calls the underlying methods" do
-        expect(klass).to receive(:check_options).with(Csvimporter::Import::Representation,
-                                                      options).once.and_call_original
-        expect(Csvimporter::Import::Representation).to receive(:define_lambda_method).with(klass, :test_model).and_yield
-        subject
-      end
-
       it "creates the memoized representation_method method" do
         subject
         expect(instance).to receive(:representation_value).with(:test_model).exactly(3).times.and_call_original

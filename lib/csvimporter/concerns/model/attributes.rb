@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "inherited_class_var"
-require "csvimporter/concerns/check_options"
 require "csvimporter/internal/model/header"
 
 module Csvimporter
@@ -9,7 +8,6 @@ module Csvimporter
     module Attributes
       extend ActiveSupport::Concern
       include InheritedClassVar
-      include CheckOptions
 
       included do
         inherited_class_hash :columns
@@ -52,21 +50,6 @@ module Csvimporter
           cell
         end
 
-        #
-        # Safe to override
-        #
-        # Really related to Import::Attributes, but placed here to help with the class heiarchy
-        def class_to_parse_lambda
-          Csvimporter::Import::Attributes::CLASS_TO_PARSE_LAMBDA
-        end
-
-        # Really related to Import::Attributes, but placed here to help with the class heiarchy (`::column` can be called without `include Csvimporter::Import`)
-        def custom_check_options(options)
-          return if options[:parse] || class_to_parse_lambda[options[:type]]
-
-          raise ArgumentError, ":type must be #{class_to_parse_lambda.keys.compact.join(", ")}"
-        end
-
         protected
 
         # Adds column to the row model
@@ -83,18 +66,7 @@ module Csvimporter
         # @option options [String] :header human friendly string of the column name, by default format_header(column_name)
         # @option options [Hash] :header_matchs array with string to match cell to find in the row, by default column name
         def column(column_name, options = {})
-          check_options Model::Header,
-                        Import::ParsedModel::Model,
-                        Import::Attribute,
-                        self, # defined above
-                        options
-
           columns_object.merge(column_name.to_sym => options)
-        end
-
-        def merge_options(column_name, options = {})
-          column_name = column_name.to_sym
-          column(column_name, options)
         end
       end
     end

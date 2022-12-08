@@ -51,18 +51,11 @@ module Csvimporter
 
       class_methods do
         def merge_options(column_name, options = {})
-          original_options = columns[column_name]
-          unless original_options[:validate_type]
-            parsed_model_class.add_type_validation(column_name,
-                                                   columns[column_name])
-          end
           super
         end
 
         def define_attribute_method(column_name)
-          return if super { original_attribute(column_name) }.nil?
-
-          parsed_model_class.add_type_validation(column_name, columns[column_name])
+          super
         end
       end
     end

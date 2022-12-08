@@ -151,38 +151,5 @@ describe Csvimporter::Import::ParsedModel do
         end
       end
     end
-
-    describe "class" do
-      describe "::custom_check_options" do
-        subject { described_class.custom_check_options(options) }
-
-        context "with invalid :type Option" do
-          let(:options) { { type: Object } }
-
-          it "does nothing" do
-            expect { subject }.not_to raise_error
-          end
-
-          context "with validate_type: true" do
-            let(:options) { super().merge(validate_type: true) }
-
-            it "raises exception" do
-              expect do
-                subject
-              end.to raise_error("with :validate_type and given :type of Object, the class ObjectFormatValidator must be defined")
-            end
-
-            context "with validator defined" do
-              let(:options) { { type: "CommaList" } }
-
-              class CommaListFormatValidator; end
-              it "does nothing" do
-                expect { subject }.not_to raise_error
-              end
-            end
-          end
-        end
-      end
-    end
   end
 end

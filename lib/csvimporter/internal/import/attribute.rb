@@ -44,23 +44,6 @@ module Csvimporter
       def default_change
         [formatted_value, default_value] if default?
       end
-
-      protected
-
-      # @return [Lambda, Proc] returns the Lambda/Proc given in the parse option or the one given by `row_model_class.class_to_parse_lambda`
-      def parse_lambda
-        options[:parse] || row_model_class.class_to_parse_lambda[options[:type]]
-      end
-
-      class << self
-        def custom_check_options(options)
-          raise ArgumentError, "Use :parse OR :type option, but not both" if options[:parse] && options[:type]
-        end
-
-        def valid_options
-          %i[type parse default]
-        end
-      end
     end
   end
 end

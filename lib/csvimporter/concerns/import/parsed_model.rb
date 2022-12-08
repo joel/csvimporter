@@ -47,30 +47,6 @@ module Csvimporter
 
       class Model < OpenStruct
         include ActiveWarnings
-
-        class << self
-          def valid_options
-            %i[type validate_type]
-          end
-
-          def custom_check_options(options)
-            return unless options[:validate_type]
-
-            class_string = "#{options[:type].to_s.classify}FormatValidator"
-            return if class_string.safe_constantize
-
-            raise ArgumentError,
-                  "with :validate_type and given :type of #{options[:type]}, the class #{class_string} must be defined"
-          end
-
-          # Adds the type validation based on :validate_type option
-          def add_type_validation(column_name, options)
-            return unless options[:validate_type]
-
-            type = options[:type]
-            class_eval { validates column_name, "#{type.to_s.underscore}_format": true, allow_blank: true }
-          end
-        end
       end
     end
   end

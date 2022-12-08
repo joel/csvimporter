@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
-require "csvimporter/concerns/check_options"
 require "csvimporter/internal/import/representation"
 
 module Csvimporter
   module Import
     module Represents
       extend ActiveSupport::Concern
-      include CheckOptions
 
       included do
         inherited_class_hash :representations
@@ -77,7 +75,6 @@ module Csvimporter
         end
 
         def define_representation_method(representation_name, options = {}, &block)
-          check_options Representation, options
           representations_object.merge(representation_name.to_sym => options)
           define_proxy_method(representation_name) { representation_value(representation_name) }
           Representation.define_lambda_method(self, representation_name, &block)
