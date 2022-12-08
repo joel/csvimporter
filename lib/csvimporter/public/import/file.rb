@@ -110,23 +110,16 @@ module Csvimporter
         size_until_blank = ((headers || []).map { |h| h.try(:strip) }.rindex(&:present?) || -1) + 1
         column_names = row_model_class.column_names
 
-        if row_model_class.dynamic_columns?
-          return if size_until_blank >= column_names.size
+        return if size_until_blank == column_names.size
 
-          expected_headers_size = ">=#{column_names.size}"
-        else
-          return if size_until_blank == column_names.size
+        expected_headers_size = column_names.size
 
-          expected_headers_size = column_names.size
-        end
         message = [
           "count does not match.",
           " Given headers (#{size_until_blank}).",
           " Expected headers (#{expected_headers_size}): #{column_names.join(", ")}"
         ]
-        if row_model_class.dynamic_columns?
-          message << ", and unlimited #{row_model_class.dynamic_column_names.join(", ")}"
-        end
+
         errors.add(:headers, message.join)
       end
     end

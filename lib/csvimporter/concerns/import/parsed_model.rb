@@ -7,7 +7,9 @@ module Csvimporter
 
       def valid?(*args)
         super
-        call_wrapper = using_warnings? ? parsed_model.method(:using_warnings) : ->(&block) { block.call }
+
+        call_wrapper = ->(&block) { block.call }
+
         call_wrapper.call do
           parsed_model.valid?(*args)
           errors.messages.merge!(parsed_model.errors.messages.reject { |_k, v| v.empty? })

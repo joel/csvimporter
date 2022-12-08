@@ -20,7 +20,6 @@ shared_examples "formatted_cells_method" do |mod, results|
       klass = Class.new do
         include Csvimporter::Model
         column :string1
-        dynamic_column :skills
       end
       klass.send(:include, mod)
       klass

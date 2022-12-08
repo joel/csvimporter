@@ -291,42 +291,6 @@ describe Csvimporter::Import::File do
     shared_context "with file_model" do
       let(:row_model_class) { FileImportModel }
     end
-    shared_context "with dynamic_column model" do
-      let(:row_model_class) { DynamicColumnImportModel }
-    end
-
-    with_this_then_context "with file_model", "with dynamic_column model" do
-      it "is valid when headers count matches the column count" do
-        expect(subject).to be true
-      end
-
-      context "with trailing empty headers" do
-        let(:file_path) { headers_with_trailing_empty_1_row_path }
-
-        it "is valid" do
-          expect(subject).to be true
-        end
-      end
-
-      context "with invalid file" do
-        let(:file_path) { "abc" }
-
-        it "only shows invalid file error" do
-          expect(subject).to be false
-          expect(instance.errors.full_messages).to eql ["Csv No such file or directory @ rb_sysopen - abc"]
-        end
-      end
-
-      context "with bad header" do
-        let(:file_path) { bad_headers_1_row_path }
-
-        it "only shows #headers_invalid_row error" do
-          expect(instance).to receive(:headers_invalid_row).and_call_original
-          expect(subject).to be false
-          expect(instance.errors.full_messages).to eql ["Csv has header with Unclosed quoted field on line 1."]
-        end
-      end
-    end
 
     context "with mixed empty headers" do
       let(:file_path) { headers_with_mixed_empty_1_row_path }
@@ -336,12 +300,6 @@ describe Csvimporter::Import::File do
       end
 
       with_context "with file_model" do
-        it "is valid" do
-          expect(subject).to be true
-        end
-      end
-
-      with_context "with dynamic_column model" do
         it "is valid" do
           expect(subject).to be true
         end
@@ -359,13 +317,6 @@ describe Csvimporter::Import::File do
       with_context "with file_model" do
         it "is valid" do
           expect(subject).to be true
-        end
-      end
-
-      with_context "with dynamic_column model" do
-        it "is invalid with a nice message" do
-          expect(subject).to be false
-          expect(instance.errors.full_messages).to eql ["Headers count does not match. Given headers (0). Expected headers (>=2): first_name, last_name, and unlimited skills"]
         end
       end
     end

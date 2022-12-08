@@ -2,7 +2,6 @@
 
 require "csvimporter/concerns/model/base"
 require "csvimporter/concerns/model/attributes"
-require "csvimporter/concerns/model/dynamic_columns"
 
 module Csvimporter
   module Model
@@ -12,6 +11,5 @@ module Csvimporter
 
     include Base
     include Attributes
-    include DynamicColumns
   end
 end

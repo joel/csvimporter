@@ -108,45 +108,6 @@ describe Csvimporter::Import::Attribute do
             end
           end
         end
-
-        context "with nil source_value" do
-          let(:source_value) { nil }
-
-          Csvimporter::Import::Attributes::CLASS_TO_PARSE_LAMBDA.each_key do |type|
-            context "with #{type.nil? ? "nil" : type} :type" do
-              let(:options) { { type: type } }
-
-              it "doesn't return an exception" do
-                expect { subject }.not_to raise_error
-              end
-            end
-          end
-        end
-      end
-
-      context "with row_model_class::class_to_parse_lambda defined" do
-        before do
-          _override = override
-          row_model_class.define_singleton_method(:class_to_parse_lambda) { super().merge(_override) }
-        end
-
-        let(:override) { { Hash => ->(s) { JSON.parse(s) } } }
-        let(:options) { { type: Hash } }
-        let(:source_value) { '{ "key": 1 }' }
-
-        it "returns does the correct parsing for the class" do
-          expect(subject).to eql("key" => 1)
-        end
-
-        context "with custom String" do
-          let(:override) { { "CommaList" => ->(s) { s.split(",").map(&:strip) } } }
-          let(:options) { { type: "CommaList" } }
-          let(:source_value) { "   thing1 , thing2" }
-
-          it "raises a new type of exception" do
-            expect(subject).to eql %w[thing1 thing2]
-          end
-        end
       end
 
       context "with :parse option" do

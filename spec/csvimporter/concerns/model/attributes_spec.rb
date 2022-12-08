@@ -56,14 +56,6 @@ describe Csvimporter::Model::Attributes do
           end
         end
       end
-
-      describe "::class_to_parse_lambda" do
-        subject { klass.class_to_parse_lambda }
-
-        it "returns the CLASS_TO_PARSE_LAMBDA" do
-          expect(subject).to eql Csvimporter::Import::Attributes::CLASS_TO_PARSE_LAMBDA
-        end
-      end
     end
   end
 end
