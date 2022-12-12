@@ -30,7 +30,7 @@ describe Csvimporter::Import::Attributes do
         let(:source_row) { [] }
 
         it "returns the cells with the right attributes" do
-          values = subject.values
+          # values = subject.values
           # expect(values.map(&:column_name)).to eql %i[string1 string2]
           # expect(values.map(&:source_value)).to eql [nil, nil]
           # expect(values.map(&:parsed_model_errors)).to eql [[], ["can't be blank"]]
@@ -38,47 +38,47 @@ describe Csvimporter::Import::Attributes do
       end
     end
 
-    # describe "#formatted_attributes" do
-    #   subject { instance.formatted_attributes }
+    describe "#formatted_attributes" do
+      subject { instance.formatted_attributes }
 
-    #   let(:row_model_class) do
-    #     Class.new(super()) do
-    #       def self.format_cell(*args)
-    #         args.join("__")
-    #       end
-    #     end
-    #   end
+      let(:row_model_class) do
+        Class.new(super()) do
+          def self.format_cell(*args)
+            args.join("__")
+          end
+        end
+      end
 
-    #   it "returns the formatted_headers" do
-    #     expect(subject).to eql(string1: "1.01__string1__#<OpenStruct>", string2: "b__string2__#<OpenStruct>")
-    #   end
-    # end
+      it "returns the formatted_headers" do
+        expect(subject).to eql(string1: "1.01__string1__#<OpenStruct>", string2: "b__string2__#<OpenStruct>")
+      end
+    end
   end
 
-  # describe "class" do
-  #   let(:row_model_class) do
-  #     Class.new do
-  #       include Csvimporter::Model
-  #       include Csvimporter::Import
-  #     end
-  #   end
+  describe "class" do
+    let(:row_model_class) do
+      Class.new do
+        include Csvimporter::Model
+        include Csvimporter::Import
+      end
+    end
 
-  #   describe ":column" do
-  #     it_behaves_like "column_method", Csvimporter::Import, string1: "1.01", string2: "b"
-  #   end
+    describe ":column" do
+      it_behaves_like "column_method", Csvimporter::Import, string1: "1.01", string2: "b"
+    end
 
-  #   describe "::define_attribute_method" do
-  #     subject { row_model_class.send(:define_attribute_method, :waka) }
+    describe "::define_attribute_method" do
+      subject { row_model_class.send(:define_attribute_method, :waka) }
 
-  #     it "makes an attribute that calls original_attribute" do
-  #       subject
-  #       expect(instance).to receive(:original_attribute).with(:waka).and_return("tested")
-  #       expect(instance.waka).to eql "tested"
-  #     end
+      it "makes an attribute that calls original_attribute" do
+        subject
+        expect(instance).to receive(:original_attribute).with(:waka).and_return("tested")
+        expect(instance.waka).to eql "tested"
+      end
 
-  #     context "with another validation added" do
-  #       it_behaves_like "define_attribute_method"
-  #     end
-  #   end
-  # end
+      context "with another validation added" do
+        it_behaves_like "define_attribute_method"
+      end
+    end
+  end
 end
