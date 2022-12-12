@@ -15,6 +15,11 @@ describe Csvimporter::AttributesBase do
   let(:attributes) { { string1: "haha", string2: "baka" } }
 
   describe "instance" do
+
+    describe "define methods" do
+      it { expect(instance).to respond_to(:string1) }
+    end
+
     describe "#attributes" do
       subject { instance.attributes }
 

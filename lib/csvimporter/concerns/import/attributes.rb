@@ -22,20 +22,30 @@ module Csvimporter
         end
       end
 
-      # return [Hash] a map changes from {.column}'s default option': `column_name -> [value_before_default, default_set]`
-      def default_changes
-        column_names_to_attribute_value(self.class.column_names, :default_change).delete_if { |_k, v| v.blank? }
-      end
-
       protected
 
       # to prevent circular dependency with parsed_model
       def _attribute_objects(parsed_model_errors = {})
         index = -1
+
         array_to_block_hash(self.class.column_names) do |column_name|
-          Attribute.new(column_name, source_row[index += 1], parsed_model_errors[column_name], self)
+
+          sr = source_row[index += 1]
+
+
+          Attribute.new(column_name, sr, parsed_model_errors[column_name], self)
         end
       end
+
+      class_methods do
+
+        protected
+
+        def define_attribute_method(column_name)
+          super { original_attribute(column_name) }
+        end
+      end
+
     end
   end
 end

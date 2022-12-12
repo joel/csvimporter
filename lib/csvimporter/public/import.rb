@@ -11,6 +11,8 @@ module Csvimporter
 
     include Csvimporter::Model
 
+    include ActiveModel::Validations
+
     include Base
     include Attributes
   end

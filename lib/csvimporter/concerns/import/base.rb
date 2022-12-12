@@ -9,7 +9,7 @@ module Csvimporter
 
       include Inspect
 
-      INSPECT_METHODS = %i[source_attributes initialized_at parent context previous].freeze
+      INSPECT_METHODS = %i[source_attributes initialized_at context previous].freeze
 
       included do
         attr_reader :source_headers, :source_row, :line_number, :index, :previous
@@ -25,15 +25,16 @@ module Csvimporter
       # @option options [Csvimporter::Import] :previous the previous row model
       # @option options [Csvimporter::Import] :parent if the instance is a child, pass the parent
       def initialize(source_row_or_exception = [], options = {})
-        @source_row = source_row_or_exception
-        @csv_exception = source_row if source_row.is_a? Exception
-        @source_row = [] if source_row_or_exception.class != Array
+        @source_row     = source_row_or_exception
+        @csv_exception  = source_row if source_row.is_a? Exception
+        @source_row     = [] if source_row_or_exception.class != Array
 
-        @line_number = options[:line_number]
-        @index = options[:index]
+        @line_number    = options[:line_number]
+        @index          = options[:index]
         @source_headers = options[:source_headers]
 
-        @previous = options[:previous].try(:dup)
+        @previous       = options[:previous].try(:dup)
+
         previous.try(:free_previous)
 
         super(options)

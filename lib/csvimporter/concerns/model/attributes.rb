@@ -7,10 +7,9 @@ module Csvimporter
   module Model
     module Attributes
       extend ActiveSupport::Concern
-      include InheritedClassVar
 
       included do
-        inherited_class_hash :columns
+        mattr_accessor :_columns, instance_writer: false, instance_reader: false
       end
 
       def headers
@@ -50,6 +49,10 @@ module Csvimporter
           cell
         end
 
+        def columns
+          self._columns ||= {}
+        end
+
         protected
 
         # Adds column to the row model
@@ -66,8 +69,9 @@ module Csvimporter
         # @option options [String] :header human friendly string of the column name, by default format_header(column_name)
         # @option options [Hash] :header_matchs array with string to match cell to find in the row, by default column name
         def column(column_name, options = {})
-          columns_object.merge(column_name.to_sym => options)
+          self._columns = self.columns.merge(column_name.to_sym => options)
         end
+
       end
     end
   end

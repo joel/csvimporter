@@ -15,18 +15,6 @@ module Csvimporter
         @initialized_at = DateTime.now
         @context = OpenStruct.new(options[:context] || {})
       end
-
-      # Safe to override.
-      # @return [Boolean] returns true, if this instance should be skipped
-      def skip?
-        !valid?
-      end
-
-      # Safe to override.
-      # @return [Boolean] returns true, if the entire csv file should stop reading
-      def abort?
-        false
-      end
     end
   end
 end

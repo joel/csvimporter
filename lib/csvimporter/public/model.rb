@@ -7,8 +7,6 @@ module Csvimporter
   module Model
     extend ActiveSupport::Concern
 
-    include ActiveModel::Validations
-
     include Base
     include Attributes
   end

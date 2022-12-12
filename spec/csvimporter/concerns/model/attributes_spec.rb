@@ -41,21 +41,6 @@ describe Csvimporter::Model::Attributes do
         expect(subject).to eql cell
       end
     end
-
-    context "with custom class" do
-      let(:klass) { Class.new { include Csvimporter::Model } }
-
-      describe "::column" do
-        subject { klass.send(:column, :blah) }
-
-        context "with invalid option" do
-          subject { klass.send(:column, :blah, invalid_option: true) }
-
-          it "raises error" do
-            expect { subject }.to raise_error("Invalid option(s): [:invalid_option]")
-          end
-        end
-      end
-    end
   end
+
 end

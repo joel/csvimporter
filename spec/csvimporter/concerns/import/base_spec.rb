@@ -4,10 +4,10 @@ require "spec_helper"
 
 describe Csvimporter::Import::Base do
   describe "instance" do
-    let(:source_row) { %w[1.01 b] }
-    let(:options) { {} }
+    let(:source_row)      { %w[1.01 b] }
+    let(:options)         { {} }
     let(:row_model_class) { BasicImportModel }
-    let(:instance) { row_model_class.new(source_row, options) }
+    let(:instance)        { row_model_class.new(source_row, options) }
 
     describe "#inspect" do
       subject { instance.inspect }
@@ -41,51 +41,51 @@ describe Csvimporter::Import::Base do
       end
     end
 
-    describe "#free_previous" do
-      subject { instance.free_previous }
+    # describe "#free_previous" do
+    #   subject { instance.free_previous }
 
-      let(:options) { { previous: row_model_class.new([]) } }
+    #   let(:options) { { previous: row_model_class.new([]) } }
 
-      it "makes previous nil" do
-        expect { subject }.to change(instance, :previous).to(nil)
-      end
+    #   it "makes previous nil" do
+    #     expect { subject }.to change(instance, :previous).to(nil)
+    #   end
 
-      context "when the class depends on the previous.previous" do
-        let(:row_model_class) do
-          Class.new(BasicImportModel) do
-            def string1
-              @string1 ||= original_attribute(:string1) || previous.try(:string1)
-            end
-          end
-        end
-        let(:source_row) { [] }
-        let(:options) { { previous: row_model_class.new([], previous: row_model_class.new(%w[1.01 b])) } }
+    #   context "when the class depends on the previous.previous" do
+    #     let(:row_model_class) do
+    #       Class.new(BasicImportModel) do
+    #         def string1
+    #           @string1 ||= original_attribute(:string1) || previous.try(:string1)
+    #         end
+    #       end
+    #     end
+    #     let(:source_row) { [] }
+    #     let(:options) { { previous: row_model_class.new([], previous: row_model_class.new(%w[1.01 b])) } }
 
-        it "grabs string1 from previous.previous" do
-          expect(instance.string1).to eql "1.01"
-        end
-      end
-    end
+    #     it "grabs string1 from previous.previous" do
+    #       expect(instance.string1).to eql "1.01"
+    #     end
+    #   end
+    # end
 
-    describe "#skip?" do
-      subject { instance.skip? }
+    # describe "#skip?" do
+    #   subject { instance.skip? }
 
-      it "is false when valid" do
-        expect(subject).to be false
-      end
+    #   it "is false when valid" do
+    #     expect(subject).to be false
+    #   end
 
-      it "is true when invalid" do
-        expect(instance).to receive(:valid?).and_return(false)
-        expect(subject).to be true
-      end
-    end
+    #   it "is true when invalid" do
+    #     expect(instance).to receive(:valid?).and_return(false)
+    #     expect(subject).to be true
+    #   end
+    # end
 
-    describe "#abort?" do
-      subject { instance.skip? }
+    # describe "#abort?" do
+    #   subject { instance.skip? }
 
-      it "is always false" do
-        expect(subject).to be false
-      end
-    end
+    #   it "is always false" do
+    #     expect(subject).to be false
+    #   end
+    # end
   end
 end
