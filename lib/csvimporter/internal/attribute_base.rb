@@ -10,7 +10,7 @@ module Csvimporter
 
     def initialize(column_name, row_model)
       @column_name = column_name
-      @row_model = row_model
+      @row_model   = row_model
     end
 
     def formatted_value

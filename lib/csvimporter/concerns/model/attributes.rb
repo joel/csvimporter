@@ -60,14 +60,7 @@ module Csvimporter
         # @param [Symbol] column_name name of column to add
         # @param options [Hash]
         #
-        # @option options [class] :type class you want to automatically parse to (by default does nothing, equivalent to String)
-        # @option options [Lambda, Proc] :parse for parsing the cell
-        # @option options [Boolean] :validate_type adds a validations within a {::parsed_model} call.
-        # if true, it will add the default validation for the given :type (if applicable)
-        #
-        # @option options [Object] :default default value of the column if it is blank?, can pass Proc
-        # @option options [String] :header human friendly string of the column name, by default format_header(column_name)
-        # @option options [Hash] :header_matchs array with string to match cell to find in the row, by default column name
+        # @option options [String] :header header for the column
         def column(column_name, options = {})
           self._columns = self.columns.merge(column_name.to_sym => options)
         end

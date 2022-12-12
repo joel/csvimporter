@@ -30,10 +30,10 @@ describe Csvimporter::Import::Attributes do
         let(:source_row) { [] }
 
         it "returns the cells with the right attributes" do
-          # values = subject.values
-          # expect(values.map(&:column_name)).to eql %i[string1 string2]
-          # expect(values.map(&:source_value)).to eql [nil, nil]
-          # expect(values.map(&:parsed_model_errors)).to eql [[], ["can't be blank"]]
+          values = subject.values
+          expect(values.map(&:column_name)).to eql %i[string1 string2]
+          expect(values.map(&:source_value)).to eql [nil, nil]
+          # expect(values.map(&:attribute_errors)).to eql [[], ["can't be blank"]]
         end
       end
     end
