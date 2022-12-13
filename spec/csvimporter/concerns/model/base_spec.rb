@@ -16,6 +16,7 @@ module Csvimporter
 
           it "gives the time" do
             allow(DateTime).to receive(:now).and_return(date_time)
+
             expect(initialized_at).to eql date_time
           end
         end
