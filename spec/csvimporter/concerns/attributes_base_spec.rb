@@ -8,16 +8,16 @@ module Csvimporter
       Class.new do
         include BasicAttributes
 
-        column :string1
-        column :string2
+        column :alpha
+        column :beta
       end
     end
     let(:instance)   { row_model_class.new(*attributes.values) }
-    let(:attributes) { { string1: "haha", string2: "baka" } }
+    let(:attributes) { { alpha: "alpha one", beta: "beta two" } }
 
     describe "instance" do
       describe "define methods" do
-        it { expect(instance).to respond_to(:string1) }
+        it { expect(instance).to respond_to(:alpha) }
       end
 
       describe "#attributes" do
@@ -29,27 +29,27 @@ module Csvimporter
 
         context "with no methods defined" do
           before do
-            row_model_class.send :undef_method, :string1
-            row_model_class.send :undef_method, :string2
+            row_model_class.send :undef_method, :alpha
+            row_model_class.send :undef_method, :beta
           end
 
           it "returns a hash with nils" do
-            expect(attr_base_attributes).to eql(string1: nil, string2: nil)
+            expect(attr_base_attributes).to eql(alpha: nil, beta: nil)
           end
         end
 
         context "with one method defined" do
           before do
-            row_model_class.send :undef_method, :string2
+            row_model_class.send :undef_method, :beta
           end
 
           it "returns a hash with a nil" do
-            expect(attr_base_attributes).to eql(string1: "haha", string2: nil)
+            expect(attr_base_attributes).to eql(alpha: "alpha one", beta: nil)
           end
         end
 
         context "with nil returned in method" do
-          let(:attributes) { { string1: nil, string2: "baka" } }
+          let(:attributes) { { alpha: nil, beta: "beta two" } }
 
           it "returns a hash with a nil" do
             expect(attr_base_attributes).to eql attributes
@@ -61,7 +61,7 @@ module Csvimporter
         subject(:original_attributes) { instance.original_attributes }
 
         it "returns the attributes hash" do
-          expect(original_attributes).to eql(string1: "haha", string2: "baka")
+          expect(original_attributes).to eql(alpha: "alpha one", beta: "beta two")
         end
       end
 
@@ -71,14 +71,14 @@ module Csvimporter
         before do
           row_model_class.class_eval do
             def self.format_cell(*args)
-              args.join("__")
+              args[0..1].join(" - ")
             end
           end
         end
 
         it "returns the attributes hash" do
-          expect(formatted_attributes).to eql(string1: "haha_source__string1__#<OpenStruct>",
-                                              string2: "baka_source__string2__#<OpenStruct>")
+          expect(formatted_attributes).to eql(alpha: "alpha one_source - alpha",
+                                              beta: "beta two_source - beta")
         end
       end
 
@@ -86,12 +86,12 @@ module Csvimporter
         subject(:source_attributes) { instance.source_attributes }
 
         it "returns the attributes hash" do
-          expect(source_attributes).to eql(string1: "haha_source", string2: "baka_source")
+          expect(source_attributes).to eql(alpha: "alpha one_source", beta: "beta two_source")
         end
       end
 
       describe "#original_attribute" do
-        it_behaves_like "attribute_object_value", :original_attribute, :value, string1: "haha"
+        it_behaves_like "attribute_object_value", :original_attribute, :value, alpha: "alpha one"
       end
 
       describe "#to_json" do
