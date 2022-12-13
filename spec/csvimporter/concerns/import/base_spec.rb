@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe Csvimporter::Import::Base do
   describe "instance" do
-    let(:source_row)      { %w[1.01 b] }
+    let(:source_row)      { %w[alpha beta] }
     let(:options)         { {} }
     let(:row_model_class) { BasicImportModel }
     let(:instance)        { row_model_class.new(source_row, options) }
@@ -31,7 +31,7 @@ describe Csvimporter::Import::Base do
       subject { instance.source_attributes }
 
       it "returns a map of `column_name => source_row[index_of_column_name]" do
-        expect(subject).to eql({ string1: "1.01", string2: "b" })
+        expect(subject).to eql({ alpha: "alpha", beta: "beta" })
       end
     end
 
@@ -47,16 +47,16 @@ describe Csvimporter::Import::Base do
       context "when the class depends on the previous.previous" do
         let(:row_model_class) do
           Class.new(BasicImportModel) do
-            def string1
-              @string1 ||= original_attribute(:string1) || previous.try(:string1)
+            def alpha
+              @alpha ||= original_attribute(:alpha) || previous.try(:alpha)
             end
           end
         end
         let(:source_row) { [] }
         let(:options) { { previous: row_model_class.new([], previous: row_model_class.new(%w[1.01 b])) } }
 
-        it "grabs string1 from previous.previous" do
-          expect(instance.string1).to eql "1.01"
+        it "grabs alpha from previous.previous" do
+          expect(instance.alpha).to eql "1.01"
         end
       end
     end
