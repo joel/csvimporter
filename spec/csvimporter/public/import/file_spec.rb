@@ -108,7 +108,7 @@ describe Csvimporter::Import::File do
 
         invalid_row = instance.next
         expect(invalid_row).to be_invalid
-        expect(invalid_row.errors.full_messages).to eql ["Csv has Missing or stray quote in line 3."]
+        expect(invalid_row.errors.full_messages).to eql ["Csv has Any value after quoted field isn't allowed in line 3."]
         expect(invalid_row.source_row).to eql []
 
         row = instance.next
@@ -201,23 +201,6 @@ describe Csvimporter::Import::File do
     end
   end
 
-  describe "#safe?" do
-    subject { instance.safe? }
-
-    it "defaults to true" do
-      expect(subject).to be true
-    end
-
-    context "bad header" do
-      let(:file_path) { bad_headers_1_row_path }
-
-      it "is false and calls #headers_invalid_row" do
-        expect(instance).to receive(:headers_invalid_row).and_call_original
-        expect(subject).to be false
-      end
-    end
-  end
-
   describe "#abort?" do
     subject { instance.abort? }
 
@@ -272,7 +255,7 @@ describe Csvimporter::Import::File do
 
       it "is false and calls #headers_invalid_row" do
         expect(subject).to be false
-        expect(instance.errors.full_messages).to eql ["Csv has header with Unclosed quoted field on line 1."]
+        expect(instance.errors.full_messages).to eql ["Csv has header with Unclosed quoted field in line 1."]
       end
     end
   end
