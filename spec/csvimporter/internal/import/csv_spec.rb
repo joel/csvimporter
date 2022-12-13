@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe Csvimporter::Import::Csv do
   let(:file_path) { basic_1_row_path }
-  let(:instance) { described_class.new(file_path) }
+  let(:instance)  { described_class.new(file_path) }
 
   describe "#valid?" do
     subject { instance.valid? }
@@ -86,7 +86,7 @@ describe Csvimporter::Import::Csv do
       let(:file_path) { bad_headers_1_row_path }
 
       it "returns an exception" do
-        expect(subject.to_s).to eql "Unclosed quoted field on line 1."
+        expect(subject.to_s).to eql "Unclosed quoted field in line 1."
       end
     end
   end
@@ -179,7 +179,7 @@ describe Csvimporter::Import::Csv do
         expect(instance.read_row).to eql %w[string1 string2]
         expect(instance.line_number).to be 2
 
-        expect(instance.read_row.to_s).to eql "Missing or stray quote in line 3."
+        expect(instance.read_row.to_s).to eql "Any value after quoted field isn't allowed in line 3."
         expect(instance.line_number).to be 3
 
         expect(instance.read_row).to eql %w[lang1 lang2]
@@ -188,7 +188,7 @@ describe Csvimporter::Import::Csv do
         expect(instance.read_row.to_s).to eql "Illegal quoting in line 5."
         expect(instance.line_number).to be 5
 
-        expect(instance.read_row.to_s).to eql "Unclosed quoted field on line 6."
+        expect(instance.read_row.to_s).to eql "Unclosed quoted field in line 6."
         expect(instance.line_number).to be 6
 
         expect(instance.read_row).to be_nil
