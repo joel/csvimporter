@@ -4,31 +4,31 @@ require "spec_helper"
 
 describe "Csvimporter::Import::ParsedModel" do
   describe "instance" do
-    let(:source_row) { %w[1.01 b] }
+    let(:source_row) { %w[alpha beta] }
     let(:options)    { { foo: :bar } }
     let(:klass)      { BasicImportModel }
     let(:instance)   { klass.new(source_row, options) }
 
     describe "#parsed_model" do
-      subject { instance.parsed_model }
+      subject(:parsed_model) { instance.parsed_model }
 
       it "returns parsed_model with methods working" do
-        expect(subject.string1).to eql "1.01"
-        expect(subject.string2).to eql "b"
+        expect(parsed_model.alpha).to eql "alpha"
+        expect(parsed_model.beta).to eql "beta"
       end
 
       # context "with format_cell" do
       #   it "format_cells first" do
-      #     expect(klass).to receive(:format_cell).with("1.01", :string1, kind_of(OpenStruct)).and_return(nil)
-      #     expect(klass).to receive(:format_cell).with("b", :string2, kind_of(OpenStruct)).and_return(nil)
-      #     expect(subject.string1).to be_nil
-      #     expect(subject.string2).to be_nil
+      #     expect(klass).to receive(:format_cell).with("1.01", :alpha, kind_of(OpenStruct)).and_return(nil)
+      #     expect(klass).to receive(:format_cell).with("b", :beta, kind_of(OpenStruct)).and_return(nil)
+      #     expect(subject.alpha).to be_nil
+      #     expect(subject.beta).to be_nil
       #   end
       # end
     end
 
     describe "#valid?" do
-      subject { instance.valid? }
+      subject(:import_model_valid) { instance.valid? }
 
       let(:klass) do
         Class.new do
@@ -48,38 +48,38 @@ describe "Csvimporter::Import::ParsedModel" do
           klass.class_eval { validates :id, presence: true }
         end
 
-        it "works" do
-          expect(subject).to be true
+        it do
+          expect(import_model_valid).to be true
         end
 
         context "with empty row" do
           let(:source_row) { %w[] }
 
-          it "works" do
-            expect(subject).to be false
+          it do
+            expect(import_model_valid).to be false
           end
         end
       end
 
-      context "overriding validations" do
+      context "when overriding validations" do
         before do
           klass.class_eval do
-            validates :id, length: { minimum: 5 }
+            validates :id, length: { minimum: 9 }
             parsed_model { validates :id, presence: true }
           end
         end
 
         it "takes the parsed_model_class validation into account" do
-          expect(subject).to be false
-          expect(instance.errors.full_messages).to eql ["Id is too short (minimum is 5 characters)"]
+          expect(import_model_valid).to be false
+          expect(instance.errors.full_messages).to eql ["Id is too short (minimum is 9 characters)"]
         end
 
         context "with empty row" do
           let(:source_row) { [""] }
 
           it "just shows the parsed_model_class validation too" do
-            expect(subject).to be false
-            expect(instance.errors.full_messages).to eql ["Id is too short (minimum is 5 characters)",
+            expect(import_model_valid).to be false
+            expect(instance.errors.full_messages).to eql ["Id is too short (minimum is 9 characters)",
                                                           "Id can't be blank"]
           end
         end
