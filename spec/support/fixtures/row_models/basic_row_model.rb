@@ -3,8 +3,8 @@
 class BasicRowModel
   include Csvimporter::Model
 
-  column :string1
-  column :string2, header: "String 2"
+  column :alpha
+  column :beta, header: "Beta Two"
 end
 
 #
