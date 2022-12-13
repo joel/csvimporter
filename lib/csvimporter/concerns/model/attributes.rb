@@ -61,9 +61,8 @@ module Csvimporter
         #
         # @option options [String] :header header for the column
         def column(column_name, options = {})
-          self._columns = self.columns.merge(column_name.to_sym => options)
+          self._columns = columns.merge(column_name.to_sym => options)
         end
-
       end
     end
   end

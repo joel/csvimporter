@@ -79,7 +79,8 @@ describe "Csvimporter::Import::ParsedModel" do
 
           it "just shows the parsed_model_class validation too" do
             expect(subject).to be false
-            expect(instance.errors.full_messages).to eql ["Id is too short (minimum is 5 characters)", "Id can't be blank"]
+            expect(instance.errors.full_messages).to eql ["Id is too short (minimum is 5 characters)",
+                                                          "Id can't be blank"]
           end
         end
       end

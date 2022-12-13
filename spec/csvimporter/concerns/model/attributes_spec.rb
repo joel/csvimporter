@@ -42,5 +42,4 @@ describe Csvimporter::Model::Attributes do
       end
     end
   end
-
 end

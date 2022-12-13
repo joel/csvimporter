@@ -8,7 +8,6 @@ describe Csvimporter::Import::Attributes do
   let(:instance)        { row_model_class.new(source_row) }
 
   describe "instance" do
-
     describe "define methods" do
       it { expect(instance).to respond_to(:string1) }
     end
