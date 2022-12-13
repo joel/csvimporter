@@ -4,7 +4,6 @@ PATH
     csvimporter (0.1.0)
       activemodel (= 5.2.8.1)
       activesupport (= 5.2.8.1)
-      inherited_class_var
 
 GEM
   remote: https://rubygems.org/
@@ -21,8 +20,6 @@ GEM
     diff-lcs (1.5.0)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
-    inherited_class_var (1.0.0.beta1)
-      activesupport (>= 4.2)
     json (2.6.3)
     minitest (5.16.3)
     parallel (1.22.1)

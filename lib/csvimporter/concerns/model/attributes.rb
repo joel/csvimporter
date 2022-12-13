@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "inherited_class_var"
 require "csvimporter/internal/model/header"
 
 module Csvimporter

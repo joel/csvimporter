@@ -5,9 +5,11 @@ class Boolean; end unless defined? Boolean
 require "csvimporter/version"
 
 require "active_support"
-require "active_support/dependencies/autoload"
+require 'active_support/all'
+# require "active_support/dependencies/autoload"
 
 require "csv"
+require "ostruct"
 require "active_model"
 
 require "csvimporter/public/model"

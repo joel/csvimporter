@@ -18,7 +18,10 @@ module Csvimporter
       end
 
       def parsed_model
-        @parsed_model ||= attribute_objects(&:formatted_value)
+        @parsed_model ||= begin
+          formatted_hash = array_to_block_hash(self.class.column_names) { |column_name| attribute_objects[column_name].formatted_value }
+          self.class.new(formatted_hash.values)
+        end
       end
 
       protected
@@ -27,10 +30,7 @@ module Csvimporter
         index = -1
 
         array_to_block_hash(self.class.column_names) do |column_name|
-
-          sr = source_row[index += 1]
-
-          Attribute.new(column_name, sr, attributes_errors[column_name], self)
+          Attribute.new(column_name, source_row[index += 1], attributes_errors[column_name], self)
         end
       end
 
@@ -41,6 +41,15 @@ module Csvimporter
         def define_attribute_method(column_name)
           super { original_attribute(column_name) }
         end
+
+        def parsed_model_class
+          @parsed_model_class ||= self
+        end
+
+        def parsed_model(&block)
+          parsed_model_class.class_eval(&block)
+        end
+
       end
 
     end
