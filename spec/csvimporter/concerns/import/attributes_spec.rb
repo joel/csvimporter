@@ -2,82 +2,86 @@
 
 require "spec_helper"
 
-describe Csvimporter::Import::Attributes do
-  let(:row_model_class) { Class.new BasicImportModel }
-  let(:source_row)      { %w[alpha beta] }
-  let(:instance)        { row_model_class.new(source_row) }
+module Csvimporter
+  module Import
+    describe Attributes do
+      let(:row_model_class) { Class.new BasicImportModel }
+      let(:source_row)      { %w[alpha beta] }
+      let(:instance)        { row_model_class.new(source_row) }
 
-  describe "instance" do
-    describe "define methods" do
-      it { expect(instance).to respond_to(:alpha) }
-    end
+      describe "instance" do
+        describe "define methods" do
+          it { expect(instance).to respond_to(:alpha) }
+        end
 
-    describe "#attribute_objects" do
-      subject { instance.attribute_objects }
+        describe "#attribute_objects" do
+          subject(:attribute_objects) { instance.attribute_objects }
 
-      it "returns a hash of cells mapped to their column_name" do
-        expect(subject.keys).to eql row_model_class.column_names
-        expect(subject.values.map(&:class)).to eql [Csvimporter::Import::Attribute] * 2
+          it "returns a hash of cells mapped to their column_name" do
+            expect(attribute_objects.keys).to eql row_model_class.column_names
+            expect(attribute_objects.values.map(&:class)).to eql [Csvimporter::Import::Attribute] * 2
+          end
+
+          context "when invalid and invalid parsed_model" do
+            let(:row_model_class) do
+              Class.new(BasicImportModel) do
+                validates :alpha, presence: true
+              end
+            end
+            let(:source_row) { [] }
+
+            it "returns the cells with the right attributes" do
+              values = attribute_objects.values
+
+              expect(values.map(&:column_name)).to eql %i[alpha beta]
+              expect(values.map(&:source_value)).to eql [nil, nil]
+              # expect(values.map(&:attribute_errors)).to eql [[], ["can't be blank"]]
+            end
+          end
+        end
+
+        describe "#formatted_attributes" do
+          subject(:formatted_attributes) { instance.formatted_attributes }
+
+          let(:row_model_class) do
+            Class.new(super()) do
+              def self.format_cell(*args)
+                args.join("__")
+              end
+            end
+          end
+
+          it "returns the formatted_headers" do
+            expect(formatted_attributes).to eql(alpha: "alpha__alpha__#<OpenStruct>", beta: "beta__beta__#<OpenStruct>")
+          end
+        end
       end
 
-      context "invalid and invalid parsed_model" do
+      describe "class" do
         let(:row_model_class) do
-          Class.new(BasicImportModel) do
-            validates :alpha, presence: true
+          Class.new do
+            include Csvimporter::Model
+            include Csvimporter::Import
           end
         end
-        let(:source_row) { [] }
 
-        it "returns the cells with the right attributes" do
-          values = subject.values
-
-          expect(values.map(&:column_name)).to eql %i[alpha beta]
-          expect(values.map(&:source_value)).to eql [nil, nil]
-          # expect(values.map(&:attribute_errors)).to eql [[], ["can't be blank"]]
+        describe ":column" do
+          it_behaves_like "column_method", Csvimporter::Import, alpha: "alpha", beta: "beta"
         end
-      end
-    end
 
-    describe "#formatted_attributes" do
-      subject { instance.formatted_attributes }
+        describe "::define_attribute_method" do
+          subject(:define_attribute_method) { row_model_class.send(:define_attribute_method, :waka) }
 
-      let(:row_model_class) do
-        Class.new(super()) do
-          def self.format_cell(*args)
-            args.join("__")
+          it "makes an attribute that calls original_attribute" do
+            define_attribute_method
+            allow(instance).to receive(:original_attribute).with(:waka).and_return("tested")
+            expect(instance.waka).to eql "tested"
+          end
+
+          context "with another validation added" do
+            it_behaves_like "define_attribute_method"
           end
         end
-      end
-
-      it "returns the formatted_headers" do
-        expect(subject).to eql(alpha: "alpha__alpha__#<OpenStruct>", beta: "beta__beta__#<OpenStruct>")
-      end
-    end
-  end
-
-  describe "class" do
-    let(:row_model_class) do
-      Class.new do
-        include Csvimporter::Model
-        include Csvimporter::Import
-      end
-    end
-
-    describe ":column" do
-      it_behaves_like "column_method", Csvimporter::Import, alpha: "alpha", beta: "beta"
-    end
-
-    describe "::define_attribute_method" do
-      subject { row_model_class.send(:define_attribute_method, :waka) }
-
-      it "makes an attribute that calls original_attribute" do
-        subject
-        expect(instance).to receive(:original_attribute).with(:waka).and_return("tested")
-        expect(instance.waka).to eql "tested"
-      end
-
-      context "with another validation added" do
-        it_behaves_like "define_attribute_method"
       end
     end
   end
