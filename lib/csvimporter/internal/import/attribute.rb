@@ -24,6 +24,10 @@ module Csvimporter
         end
       end
 
+      def parsed_value
+        @parsed_value ||= formatted_value
+      end
+
     end
   end
 end
