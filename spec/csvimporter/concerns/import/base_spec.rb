@@ -71,7 +71,7 @@ module Csvimporter
           end
 
           it "is true when invalid" do
-            expect(instance).to receive(:valid?).and_return(false)
+            allow(instance).to receive(:valid?).and_return(false)
             expect(import_skip).to be true
           end
         end
