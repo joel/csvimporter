@@ -6,8 +6,8 @@ shared_examples "with_or_without_csv_row_model_model" do |mod|
       Class.new do
         include mod
 
-        column :string1
-        column :string2
+        column :alpha
+        column :beta
       end
     end
 
@@ -27,8 +27,8 @@ shared_examples "with_or_without_csv_row_model_model" do |mod|
         include Csvimporter::Model
         include mod
 
-        column :string1
-        column :string2
+        column :alpha
+        column :beta
       end
     end
 

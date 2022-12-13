@@ -5,7 +5,7 @@ require "spec_helper"
 module Csvimporter
   describe AttributeBase do
     describe "instance" do
-      let(:instance)        { described_class.new(:string1, row_model) }
+      let(:instance)        { described_class.new(:alpha, row_model) }
       let(:row_model_class) { Class.new BasicRowModel }
       let(:row_model)       { row_model_class.new }
 
@@ -27,7 +27,7 @@ module Csvimporter
         end
 
         it "returns the formatted_cell value and memoizes it" do
-          expect(formatted_value).to eql("1.01__string1__#<OpenStruct>")
+          expect(formatted_value).to eql("1.01__alpha__#<OpenStruct>")
           expect(formatted_value.object_id).to eql instance.formatted_value.object_id
         end
       end

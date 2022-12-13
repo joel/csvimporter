@@ -4,8 +4,8 @@ class FileRowModel
   include Csvimporter::Model
   include Csvimporter::Model::FileModel
 
-  row :string1
-  row :string2, header: "String 2"
+  row :alpha
+  row :beta, header: "String 2"
 
   class << self
     def format_header(column_name, _context)

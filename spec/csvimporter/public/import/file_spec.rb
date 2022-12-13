@@ -20,7 +20,7 @@ module Csvimporter
         subject(:headers) { instance.headers }
 
         it "returns the headers" do
-          expect(headers).to eql %w[string1 string2]
+          expect(headers).to eql %w[alpha beta]
         end
 
         context "with bad header" do
@@ -108,7 +108,7 @@ module Csvimporter
           it "returns invalid row" do
             row = instance.next
             expect(row).to be_valid
-            expect(row.source_row).to eql %w[string1 string2]
+            expect(row.source_row).to eql %w[alpha beta]
 
             invalid_row = instance.next
             expect(invalid_row).to be_invalid
@@ -299,7 +299,7 @@ module Csvimporter
 
           it "is invalid with a nice message" do
             expect(valid_file).to be false
-            expect(instance.errors.full_messages).to eql ["Headers count does not match. Given headers (0). Expected headers (2): string1, string2"]
+            expect(instance.errors.full_messages).to eql ["Headers count does not match. Given headers (0). Expected headers (2): alpha, beta"]
           end
 
           with_context "with file_model" do

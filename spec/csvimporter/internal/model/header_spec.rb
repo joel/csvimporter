@@ -5,7 +5,7 @@ require "spec_helper"
 module Csvimporter
   module Model
     describe Header do
-      let(:instance) { described_class.new(:string1, row_model_class, string1: "context") }
+      let(:instance) { described_class.new(:alpha, row_model_class, alpha: "context") }
       let(:row_model_class) do
         Class.new(BasicRowModel) do
           def self.format_header(*args)
@@ -18,13 +18,13 @@ module Csvimporter
         subject(:value) { instance.value }
 
         it "returns the formatted_header" do
-          expect(value).to eql "string1__#<OpenStruct string1=\"context\">"
+          expect(value).to eql "alpha__#<OpenStruct alpha=\"context\">"
         end
 
         context "with :header option" do
           let(:row_model_class) do
             Class.new(BasicRowModel) do
-              column :string1, header: "waka"
+              column :alpha, header: "waka"
             end
           end
 

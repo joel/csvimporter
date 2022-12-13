@@ -9,10 +9,10 @@ module Csvimporter
         let(:parsed_model_errors) { nil }
         let(:row_model_class)     { Class.new BasicImportModel }
         let(:source_value)        { "1.01" }
-        let(:source_row)          { [source_value, "original_string2"] }
+        let(:source_row)          { [source_value, "original_beta"] }
         let(:row_model)           { row_model_class.new(source_row) }
         let(:options)             { {} }
-        let(:instance)            { described_class.new(:string1, source_value, parsed_model_errors, row_model) }
+        let(:instance)            { described_class.new(:alpha, source_value, parsed_model_errors, row_model) }
 
         it_behaves_like "has_needed_value_methods"
 
