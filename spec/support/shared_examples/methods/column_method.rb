@@ -11,7 +11,7 @@ shared_examples "column_method" do |mod, expectation = {}|
       row_model_class.send(:column, :beta)
     end
 
-    it "works" do
+    it do
       expect(instance.alpha).to eql expectation[:alpha]
       expect(instance.beta).to eql expectation[:beta]
     end

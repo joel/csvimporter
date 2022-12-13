@@ -11,8 +11,8 @@ shared_examples "with_or_without_csv_row_model_model" do |mod|
       end
     end
 
-    it "works" do
-      test_attributes
+    it do
+      expect(klass.new(%w[alpha beta]).attributes).to eql(alpha: "alpha", beta: "beta")
     end
 
     it "has Csvimporter::Model included" do
@@ -21,7 +21,7 @@ shared_examples "with_or_without_csv_row_model_model" do |mod|
     end
   end
 
-  context "has Csvimporter::Model and another module" do
+  context "when has Csvimporter::Model and another module" do
     let(:klass) do
       Class.new do
         include Csvimporter::Model
@@ -32,8 +32,8 @@ shared_examples "with_or_without_csv_row_model_model" do |mod|
       end
     end
 
-    it "works" do
-      test_attributes
+    it do
+      expect(klass.new(%w[alpha beta]).attributes).to eql(alpha: "alpha", beta: "beta")
     end
 
     it "class order is kept the same" do

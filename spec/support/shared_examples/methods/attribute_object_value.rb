@@ -6,7 +6,7 @@ shared_examples "attribute_object_value" do |method_name, value_method, expectat
   let(:column_name) { expectation.keys.first }
   let(:expected_value) { expectation[column_name] }
 
-  it "works" do
+  it do
     expect_any_instance_of(instance.attribute_objects.values.first.class).to receive(value_method).and_call_original
     expect(subject).to eql expected_value
   end
@@ -14,7 +14,7 @@ shared_examples "attribute_object_value" do |method_name, value_method, expectat
   context "invalid column_name" do
     let(:column_name) { :not_a_column }
 
-    it "works" do
+    it do
       expect(subject).to be_nil
     end
   end

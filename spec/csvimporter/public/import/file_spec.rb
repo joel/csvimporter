@@ -92,7 +92,7 @@ module Csvimporter
           let(:file_path) { file_model_1_row_path }
           let(:instance)  { described_class.new file_path, FileImportModel }
 
-          it "works" do
+          it do
             expect(next_row.source_row).to eql(["value 1", "value 2"])
 
             3.times do
@@ -133,7 +133,7 @@ module Csvimporter
           before { instance.define_singleton_method(:abort?) { true } }
 
           it "never yields and call callbacks" do
-            expect(instance).to receive(:run_callbacks).with(:abort).once
+            allow(instance).to receive(:run_callbacks).with(:abort).once
 
             expect { each_row.next }.to raise_error(StopIteration)
           end
@@ -155,7 +155,7 @@ module Csvimporter
 
           it "yields twice and call callbacks" do
             allow(instance).to receive(:run_callbacks).with(anything).and_call_original
-            expect(instance).to receive(:run_callbacks).with(:abort).and_call_original.once
+            allow(instance).to receive(:run_callbacks).with(:abort).and_call_original.once
 
             each_row.next
             each_row.next
@@ -179,7 +179,7 @@ module Csvimporter
 
           it "skips twice" do
             allow(instance).to receive(:run_callbacks).with(anything).and_call_original
-            expect(instance).to receive(:run_callbacks).with(:skip).and_call_original.twice
+            allow(instance).to receive(:run_callbacks).with(:skip).and_call_original.twice
 
             each_row.next
             each_row.next
@@ -211,12 +211,12 @@ module Csvimporter
 
         context "when valid?" do
           before do
-            expect(instance).to receive(:valid?).and_return(true)
+            allow(instance).to receive(:valid?).and_return(true)
           end
 
           context "when current_row_model is nil" do
             before do
-              expect(instance).to receive(:current_row_model).and_return(nil)
+              allow(instance).to receive(:current_row_model).and_return(nil)
             end
 
             it "returns false" do
@@ -231,7 +231,7 @@ module Csvimporter
 
         context "when current_row_model is nil" do
           before do
-            expect(instance).to receive(:current_row_model).and_return(nil)
+            allow(instance).to receive(:current_row_model).and_return(nil)
           end
 
           it "returns false" do
