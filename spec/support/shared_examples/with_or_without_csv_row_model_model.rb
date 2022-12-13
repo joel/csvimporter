@@ -25,7 +25,6 @@ shared_examples "with_or_without_csv_row_model_model" do |mod|
     let(:klass) do
       Class.new do
         include Csvimporter::Model
-        include Csvimporter::Inspect
         include mod
 
         column :string1
@@ -38,7 +37,7 @@ shared_examples "with_or_without_csv_row_model_model" do |mod|
     end
 
     it "class order is kept the same" do
-      module_indices = [mod, Csvimporter::Inspect, Csvimporter::Model].map { |c| klass.ancestors.index(c) }
+      module_indices = [mod, Csvimporter::Model].map { |c| klass.ancestors.index(c) }
       expect(module_indices).to eql module_indices.sort
     end
   end

@@ -9,12 +9,6 @@ describe Csvimporter::Import::Base do
     let(:row_model_class) { BasicImportModel }
     let(:instance)        { row_model_class.new(source_row, options) }
 
-    describe "#inspect" do
-      subject { instance.inspect }
-
-      it("works") { subject }
-    end
-
     describe "#valid?" do
       subject { instance.valid? }
 

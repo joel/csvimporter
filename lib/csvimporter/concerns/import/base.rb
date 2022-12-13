@@ -1,15 +1,9 @@
 # frozen_string_literal: true
 
-require "csvimporter/concerns/inspect"
-
 module Csvimporter
   module Import
     module Base
       extend ActiveSupport::Concern
-
-      include Inspect
-
-      INSPECT_METHODS = %i[source_attributes initialized_at context previous].freeze
 
       included do
         attr_reader :source_headers, :source_row, :line_number, :index, :previous
