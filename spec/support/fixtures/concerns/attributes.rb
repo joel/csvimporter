@@ -12,7 +12,9 @@ end
 
 module BasicAttributes
   extend ActiveSupport::Concern
+
   include Csvimporter::AttributesBase
+
   attr_reader :source_row
 
   included do
