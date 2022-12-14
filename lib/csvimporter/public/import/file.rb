@@ -59,7 +59,7 @@ module Csvimporter
       # Iterates through the entire csv file and provides the `current_row_model` in a block, while handing aborts and skips
       # via. calling {Model#abort?} and {Model#skip?}
       def each(context = {})
-        return to_enum(__callee__) unless block_given?
+        return to_enum(__callee__, context) unless block_given?
         return false if _abort?
 
         while self.next(context)

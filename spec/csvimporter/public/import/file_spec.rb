@@ -66,20 +66,22 @@ module Csvimporter
         end
 
         it "gets the rows until the end of file" do
-          row_model = nil
+          current_row_model = nil
 
           5.times do |index|
-            previous_row_model = row_model
-            row_model = instance.next
-            expect(row_model.class).to eql row_model_class
+            previous_row_model = current_row_model
+            current_row_model  = instance.next
 
-            expect(row_model.source_row).to eql %W[firsts#{index} seconds#{index}]
+            expect(current_row_model.class).to eql row_model_class
 
-            expect(row_model.previous.try(:source_row)).to eql previous_row_model.try(:source_row)
-            expect(row_model.index).to eql index
+            expect(current_row_model.source_row).to eql %W[firsts#{index} seconds#{index}]
+
+            expect(current_row_model.previous.try(:source_row)).to eql previous_row_model.try(:source_row)
+            expect(current_row_model.index).to eql index
+
             # header means +1, starts at 1 means +1 too--- 1 + 1 = 2
-            expect(row_model.line_number).to eql index + 2
-            expect(row_model.context).to eql OpenStruct.new(some_context: true)
+            expect(current_row_model.line_number).to eql index + 2
+            expect(current_row_model.context).to eql OpenStruct.new(some_context: true)
           end
 
           3.times do
@@ -130,7 +132,7 @@ module Csvimporter
         subject(:each_row) { instance.each }
 
         context "with abort" do
-          before { instance.define_singleton_method(:abort?) { true } }
+          before { allow(instance).to receive(:abort?).and_return(true) }
 
           it "never yields and call callbacks" do
             allow(instance).to receive(:run_callbacks).with(:abort).once
@@ -139,7 +141,7 @@ module Csvimporter
           end
         end
 
-        context "with abort on third row_model (abort on valid? ChildImport)" do
+        context "with abort on third row_model" do
           let(:file_path) { basic_5_rows_path }
           let(:row_model_class) do
             Class.new(BasicImportModel) do
