@@ -91,7 +91,7 @@ module Csvimporter
       end
 
       describe "#original_attribute" do
-        it_behaves_like "attribute_object_value", :original_attribute, :value, alpha: "alpha one"
+        it { expect(instance.original_attribute(:alpha)).to eql "alpha one" }
       end
 
       describe "#to_json" do
