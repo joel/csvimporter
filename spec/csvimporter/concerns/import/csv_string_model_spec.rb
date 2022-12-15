@@ -19,8 +19,9 @@ describe "Csvimporter::Import::ParsedModel" do
 
       # context "with format_cell" do
       #   it "format_cells first" do
-      #     expect(klass).to receive(:format_cell).with("1.01", :alpha, kind_of(OpenStruct)).and_return(nil)
-      #     expect(klass).to receive(:format_cell).with("b", :beta, kind_of(OpenStruct)).and_return(nil)
+      #     expect(klass).to receive(:format_cell).with("alpha", :alpha, kind_of(OpenStruct)).and_return(nil)
+      #     expect(klass).to receive(:format_cell).with("beta", :beta, kind_of(OpenStruct)).and_return(nil)
+
       #     expect(subject.alpha).to be_nil
       #     expect(subject.beta).to be_nil
       #   end
