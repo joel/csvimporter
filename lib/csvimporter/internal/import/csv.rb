@@ -47,6 +47,7 @@ module Csvimporter
 
         @ruby_csv.try(:close)
         @ruby_csv = _ruby_csv
+
         true
       end
 
