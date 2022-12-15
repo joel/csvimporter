@@ -9,7 +9,7 @@ module Csvimporter
       let(:row_model_class) do
         Class.new(BasicRowModel) do
           def self.format_header(*args)
-            args.join("__")
+            args.join(" - ")
           end
         end
       end
@@ -18,18 +18,18 @@ module Csvimporter
         subject(:value) { instance.value }
 
         it "returns the formatted_header" do
-          expect(value).to eql "alpha__#<OpenStruct alpha=\"context\">"
+          expect(value).to eql "alpha - #<OpenStruct alpha=\"context\">"
         end
 
         context "with :header option" do
           let(:row_model_class) do
             Class.new(BasicRowModel) do
-              column :alpha, header: "waka"
+              column :alpha, header: "Alpha Thor"
             end
           end
 
           it "returns the option value" do
-            expect(value).to eql "waka"
+            expect(value).to eql "Alpha Thor"
           end
         end
       end
