@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "csvimporter/concerns/attributes_base"
+require "csvimporter/concerns/import/parsed_model"
 require "csvimporter/internal/import/attribute"
 
 module Csvimporter
@@ -8,6 +9,7 @@ module Csvimporter
     module Attributes
       extend ActiveSupport::Concern
       include AttributesBase
+      include ParsedModel
 
       included do
         ensure_attribute_method
@@ -15,15 +17,6 @@ module Csvimporter
 
       def attribute_objects
         @attribute_objects ||= _attribute_objects
-      end
-
-      def parsed_model
-        @parsed_model ||= begin
-          formatted_hash = array_to_block_hash(self.class.column_names) do |column_name|
-            attribute_objects[column_name].formatted_value
-          end
-          self.class.new(formatted_hash.values)
-        end
       end
 
       protected
@@ -39,14 +32,6 @@ module Csvimporter
       class_methods do
         def define_attribute_method(column_name)
           super { original_attribute(column_name) }
-        end
-
-        def parsed_model_class
-          @parsed_model_class ||= self
-        end
-
-        def parsed_model(&block)
-          parsed_model_class.class_eval(&block)
         end
       end
     end
