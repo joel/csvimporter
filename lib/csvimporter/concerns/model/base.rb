@@ -13,7 +13,7 @@ module Csvimporter
       # @option options [Hash] :context extra data you want to work with the model
       def initialize(options = {})
         @initialized_at = DateTime.now
-        @context = OpenStruct.new(options[:context] || {})
+        @context        = OpenStruct.new(options[:context] || {})
       end
     end
   end
