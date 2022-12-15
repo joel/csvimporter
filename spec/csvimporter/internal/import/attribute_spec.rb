@@ -8,7 +8,7 @@ module Csvimporter
       describe "instance" do
         let(:parsed_model_errors) { nil }
         let(:row_model_class)     { Class.new BasicImportModel }
-        let(:source_value)        { "1.01" }
+        let(:source_value)        { "alpha" }
         let(:source_row)          { [source_value, "original_beta"] }
         let(:row_model)           { row_model_class.new(source_row) }
         let(:options)             { {} }
@@ -20,7 +20,7 @@ module Csvimporter
           subject(:value) { instance.value }
 
           it "memoizes the result" do
-            expect(value).to eql "1.01"
+            expect(value).to eql "alpha"
             expect(value.object_id).to eql instance.value.object_id
           end
 
@@ -33,7 +33,7 @@ module Csvimporter
             let(:parsed_model_errors) { [] }
 
             it "returns the result" do
-              expect(value).to eql("1.01")
+              expect(value).to eql("alpha")
             end
           end
         end
@@ -42,7 +42,7 @@ module Csvimporter
           subject(:parsed_value) { instance.parsed_value }
 
           it "memoizes the result" do
-            expect(parsed_value).to eql "1.01"
+            expect(parsed_value).to eql "alpha"
             expect(parsed_value.object_id).to eql instance.value.object_id
           end
         end
