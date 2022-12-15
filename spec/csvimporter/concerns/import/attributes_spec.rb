@@ -70,12 +70,12 @@ module Csvimporter
         end
 
         describe "::define_attribute_method" do
-          subject(:define_attribute_method) { row_model_class.send(:define_attribute_method, :waka) }
+          subject(:define_attribute_method) { row_model_class.send(:define_attribute_method, :whatever) }
 
           it "makes an attribute that calls original_attribute" do
             define_attribute_method
-            allow(instance).to receive(:original_attribute).with(:waka).and_return("tested")
-            expect(instance.waka).to eql "tested"
+            allow(instance).to receive(:original_attribute).with(:whatever).and_return("tested")
+            expect(instance.whatever).to eql "tested"
           end
 
           context "with another validation added" do

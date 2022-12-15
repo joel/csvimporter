@@ -18,9 +18,9 @@ module Csvimporter
       end
 
       describe "defining method" do
-        subject(:new_method) { klass1.new.waka }
+        subject(:new_method) { klass1.new.whatever }
 
-        before { klass1.define_proxy_method(:waka) { "in module" } }
+        before { klass1.define_proxy_method(:whatever) { "in module" } }
 
         it do
           expect(new_method).to eql "in module"
