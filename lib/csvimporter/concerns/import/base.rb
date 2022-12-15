@@ -64,6 +64,7 @@ module Csvimporter
         # @return [Import] the next model instance from the csv
         def next(file, context = {})
           csv = file.csv
+
           csv.skip_headers
           csv.read_row
 

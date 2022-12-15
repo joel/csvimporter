@@ -55,10 +55,10 @@ module Csvimporter
               end
             end
             let(:source_row) { [] }
-            let(:options) { { previous: row_model_class.new([], previous: row_model_class.new(%w[1.01 b])) } }
+            let(:options) { { previous: row_model_class.new([], previous: row_model_class.new(["alpha from previous > previous", "beta"])) } }
 
             it "grabs alpha from previous.previous" do
-              expect(instance.alpha).to eql "1.01"
+              expect(instance.alpha).to eql "alpha from previous > previous"
             end
           end
         end
