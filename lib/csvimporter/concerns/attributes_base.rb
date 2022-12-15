@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 require "csvimporter/concerns/model/attributes"
-require "csvimporter/concerns/hidden_module"
+require "csvimporter/concerns/proxy"
 
 module Csvimporter
   module AttributesBase
     extend ActiveSupport::Concern
     include Model::Attributes
-    include HiddenModule
+    include Proxy
 
     # @return [Hash] a map of `column_name => public_send(column_name)`
     def attributes
