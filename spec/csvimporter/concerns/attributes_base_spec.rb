@@ -77,8 +77,10 @@ module Csvimporter
         end
 
         it "returns the attributes hash" do
-          expect(formatted_attributes).to eql(alpha: "alpha one_source - alpha",
-                                              beta: "beta two_source - beta")
+          expect(formatted_attributes).to eql(
+            alpha: "alpha one_source - alpha",
+            beta: "beta two_source - beta"
+          )
         end
       end
 
