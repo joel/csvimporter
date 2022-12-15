@@ -9,7 +9,7 @@ module Csvimporter
       let(:row_model_class) { Class.new BasicRowModel }
       let(:row_model)       { row_model_class.new }
 
-      let(:source_value) { "1.01" }
+      let(:source_value) { "alpha one" }
 
       before do
         allow(instance).to receive(:source_value).and_return(source_value)
@@ -21,13 +21,13 @@ module Csvimporter
         before do
           row_model_class.class_eval do
             def self.format_cell(*args)
-              args.join("__")
+              args[0..1].join(" - ")
             end
           end
         end
 
         it "returns the formatted_cell value and memoizes it" do
-          expect(formatted_value).to eql("1.01__alpha__#<OpenStruct>")
+          expect(formatted_value).to eql("alpha one - alpha")
           expect(formatted_value.object_id).to eql instance.formatted_value.object_id
         end
       end
