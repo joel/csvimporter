@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-class Boolean; end unless defined? Boolean
-
 require "csvimporter/version"
 
 require "active_support"
