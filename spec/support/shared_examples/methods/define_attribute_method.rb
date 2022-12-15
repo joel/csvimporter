@@ -7,6 +7,7 @@ shared_examples "define_attribute_method" do
 
     row_model_class.send(:define_attribute_method, :whatever)
     row_model_class.send(:define_attribute_method, :whatever)
+
     row_model_class.send(:define_attribute_method, :whenever)
     row_model_class.send(:define_attribute_method, :whenever)
   end

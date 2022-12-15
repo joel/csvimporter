@@ -81,4 +81,4 @@ Style/OpenStructUse:
     - 'lib/csvimporter/concerns/model/base.rb'
     - 'lib/csvimporter/internal/model/header.rb'
     - 'spec/csvimporter/public/import/file_spec.rb'
-    - 'spec/support/fixtures/concerns/attributes.rb'
+    - 'spec/support/fixtures/concerns/basic_attributes.rb'

@@ -13,7 +13,7 @@ shared_examples "column_method" do |mod, expectation = {}|
 
     it do
       expect(instance.alpha).to eql expectation[:alpha]
-      expect(instance.beta).to eql expectation[:beta]
+      expect(instance.beta).to  eql expectation[:beta]
     end
 
     context "with method defined before column" do
