@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Csvimporter
-  # Include this to with {Model} to have a RowModel for importing csvs that
+  # Include this to with {Model} to have a RowModel for importing CSVs that
   # represents just one model.
   # It needs Csvimporter::Import
   module Import
@@ -23,14 +23,15 @@ module Csvimporter
 
         def header_matchers(context)
           @header_matchers ||= row_names.filter_map do |row_name|
-            if (formatted_header = format_header(row_name, context))
-              Regexp.new("^#{formatted_header}$", Regexp::IGNORECASE)
-            end
+            formatted_header = format_header(row_name, context)
+
+            Regexp.new("^#{formatted_header}$", Regexp::IGNORECASE) if formatted_header
           end
         end
 
         def next(file, context = {})
           csv = file.csv
+
           return csv.read_row unless csv.next_row
 
           source_row = Array.new(header_matchers(context).size)
@@ -46,6 +47,7 @@ module Csvimporter
               next unless index
 
               source_row[index] = current_row[position + 1]
+
               break
             end
           end
