@@ -17,15 +17,15 @@ describe "Csvimporter::Import::ParsedModel" do
         expect(parsed_model.beta).to eql "beta"
       end
 
-      # context "with format_cell" do
-      #   it "format_cells first" do
-      #     expect(klass).to receive(:format_cell).with("alpha", :alpha, kind_of(OpenStruct)).and_return(nil)
-      #     expect(klass).to receive(:format_cell).with("beta", :beta, kind_of(OpenStruct)).and_return(nil)
+      context "with format_cell" do
+        it "format_cells first" do
+          expect(klass).to receive(:format_cell).with("alpha", :alpha, kind_of(OpenStruct)).and_return(nil)
+          expect(klass).to receive(:format_cell).with("beta", :beta, kind_of(OpenStruct)).and_return(nil)
 
-      #     expect(subject.alpha).to be_nil
-      #     expect(subject.beta).to be_nil
-      #   end
-      # end
+          expect(subject.alpha).to be_nil
+          expect(subject.beta).to be_nil
+        end
+      end
     end
 
     describe "#valid?" do
