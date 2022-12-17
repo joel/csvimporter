@@ -25,7 +25,7 @@ module Csvimporter
           end
 
           it "calls format_cell and returns the result" do
-            allow(instance).to receive(:formatted_value).and_return("whatever")
+            allow(instance).to receive(:formatted_value).once.and_return("whatever")
             expect(value).to eql("whatever")
           end
 

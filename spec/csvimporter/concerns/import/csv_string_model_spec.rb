@@ -19,8 +19,8 @@ describe "Csvimporter::Import::ParsedModel" do
 
       context "with format_cell" do
         it "format_cells first" do
-          allow(klass).to receive(:format_cell).with("alpha", :alpha, kind_of(OpenStruct)).and_return(nil)
-          allow(klass).to receive(:format_cell).with("beta", :beta, kind_of(OpenStruct)).and_return(nil)
+          allow(klass).to receive(:format_cell).with("alpha", :alpha, kind_of(OpenStruct)).once.and_return(nil)
+          allow(klass).to receive(:format_cell).with("beta", :beta, kind_of(OpenStruct)).once.and_return(nil)
 
           expect(parsed_model.alpha).to be_nil
           expect(parsed_model.beta).to be_nil

@@ -12,7 +12,7 @@ module Csvimporter
       let(:source_value) { "alpha one" }
 
       before do
-        allow(instance).to receive(:source_value).and_return(source_value)
+        allow(instance).to receive(:source_value).once.and_return(source_value)
       end
 
       describe "#formatted_value" do

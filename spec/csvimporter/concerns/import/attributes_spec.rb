@@ -39,7 +39,7 @@ module Csvimporter
             end
 
             it "returns the cells with the right attributes" do
-              allow(instance).to receive(:valid?).and_call_original
+              allow(instance).to receive(:valid?).once.and_call_original
               allow(instance.parsed_model).to receive(:valid?).twice.and_call_original
 
               expect(instance.valid?).to be false
@@ -93,7 +93,7 @@ module Csvimporter
 
           it "makes an attribute that calls original_attribute" do
             define_attribute_method
-            allow(instance).to receive(:original_attribute).with(:whatever).and_return("tested")
+            allow(instance).to receive(:original_attribute).with(:whatever).once.and_return("tested")
             expect(instance.whatever).to eql "tested"
           end
 
