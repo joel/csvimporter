@@ -11,9 +11,6 @@ require "csv"
 require "ostruct"
 require "active_model"
 
-require "csvimporter/public/model"
-require "csvimporter/public/model/file_model"
-
 require "csvimporter/public/import"
-require "csvimporter/public/import/file_model"
-require "csvimporter/public/import/file"
+
+require "csvimporter/internal/import/csv"
