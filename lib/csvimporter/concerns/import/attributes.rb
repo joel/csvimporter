@@ -16,7 +16,7 @@ module Csvimporter
       end
 
       def attribute_objects
-        @attribute_objects ||= _attribute_objects
+        @attribute_objects ||= _attribute_objects(parsed_model.errors)
       end
 
       protected
@@ -31,7 +31,7 @@ module Csvimporter
 
       class_methods do
         def define_attribute_method(column_name)
-          super { original_attribute(column_name) }
+          return if super { original_attribute(column_name) }.nil?
         end
       end
     end
