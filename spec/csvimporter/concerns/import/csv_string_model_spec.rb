@@ -58,6 +58,7 @@ describe "Csvimporter::Import::ParsedModel" do
 
           it do
             expect(import_model_valid).to be false
+            expect(instance.errors.full_messages).to eql ["Id can't be blank"]
           end
         end
       end

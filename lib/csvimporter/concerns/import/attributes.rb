@@ -16,7 +16,7 @@ module Csvimporter
       end
 
       def attribute_objects
-        @attribute_objects ||= _attribute_objects(parsed_model.errors)
+        @attribute_objects ||= _attribute_objects(errors)
       end
 
       protected
