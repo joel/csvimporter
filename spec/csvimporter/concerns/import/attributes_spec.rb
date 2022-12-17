@@ -26,7 +26,6 @@ module Csvimporter
           context "when invalid and invalid parsed_model" do
             let(:row_model_class) do
               Class.new(BasicImportModel) do
-
                 validates :alpha, format: { with: /\A\d+\z/ }
 
                 def self.name
@@ -40,11 +39,11 @@ module Csvimporter
             end
 
             it "returns the cells with the right attributes" do
-              expect(instance).to receive(:valid?).and_call_original
-              expect(instance.parsed_model).to receive(:valid?).twice.and_call_original
+              allow(instance).to receive(:valid?).and_call_original
+              allow(instance.parsed_model).to receive(:valid?).twice.and_call_original
 
               expect(instance.valid?).to be false
-              expect(instance.errors.messages).to eql( {:alpha=>["is invalid"], :beta=>[]})
+              expect(instance.errors.messages).to eql({ alpha: ["is invalid"], beta: [] })
               expect(instance.errors.full_messages).to eql(["Alpha is invalid"])
 
               expect(instance.parsed_model.valid?).to be true
@@ -53,7 +52,7 @@ module Csvimporter
 
               expect(values.map(&:column_name)).to eql %i[alpha beta]
               expect(values.map(&:value)).to eql [nil,  "beta :: - :: beta"]
-              expect(values.map(&:source_value)).to eql ["alpha", "beta"]
+              expect(values.map(&:source_value)).to eql %w[alpha beta]
               expect(values.map(&:parsed_value)).to eql ["alpha :: - :: alpha", "beta :: - :: beta"]
               expect(values.map(&:attribute_errors)).to eql [["is invalid"], []]
             end

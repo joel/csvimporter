@@ -9,15 +9,16 @@ module Csvimporter
         super
 
         parsed_model.valid?(*args)
-        valid = errors.empty? && parsed_model.errors.empty?
 
-        # Is ParserModel carry errors, we merge them to the RowModel
+        is_valid = errors.empty? && parsed_model.errors.empty?
+
+        # If ParserModel carry errors, we merge them to the RowModel
         errors.merge!(parsed_model.errors) unless parsed_model.errors.empty?
 
-        # attribute_objects was called by valid? method, so we need to reset it to set the errors on the Attribute
-        instance_variable_set(:@attribute_objects, nil) unless valid
+        # attribute_objects was called by valid?, so we need to reset it to set the errors on the Attribute(s)
+        instance_variable_set(:@attribute_objects, nil) unless is_valid
 
-        valid
+        is_valid
       end
 
       def parsed_model
