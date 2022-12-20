@@ -15,7 +15,7 @@ module Csvimporter
           let(:date_time) { DateTime.now }
 
           it "gives the date time of the creation of the RowModel" do
-            allow(DateTime).to receive(:now).and_return(date_time)
+            allow(DateTime).to receive(:now).once.and_return(date_time)
 
             expect(initialized_at).to eql date_time
           end

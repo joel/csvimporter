@@ -79,6 +79,8 @@ RSpec/NoExpectationExample:
 Style/OpenStructUse:
   Exclude:
     - 'lib/csvimporter/concerns/model/base.rb'
+    - 'lib/csvimporter/concerns/import/parsed_model.rb'
     - 'lib/csvimporter/internal/model/header.rb'
     - 'spec/csvimporter/public/import/file_spec.rb'
     - 'spec/support/fixtures/concerns/basic_attributes.rb'
+    - 'spec/csvimporter/concerns/import/csv_string_model_spec.rb'

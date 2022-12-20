@@ -109,6 +109,7 @@ module Csvimporter
 
           it "returns invalid row" do
             row = instance.next
+
             expect(row).to be_valid
             expect(row.source_row).to eql %w[alpha beta]
 

@@ -17,15 +17,15 @@ describe "Csvimporter::Import::ParsedModel" do
         expect(parsed_model.beta).to eql "beta"
       end
 
-      # context "with format_cell" do
-      #   it "format_cells first" do
-      #     expect(klass).to receive(:format_cell).with("alpha", :alpha, kind_of(OpenStruct)).and_return(nil)
-      #     expect(klass).to receive(:format_cell).with("beta", :beta, kind_of(OpenStruct)).and_return(nil)
+      context "with format_cell" do
+        it "format_cells first" do
+          allow(klass).to receive(:format_cell).with("alpha", :alpha, kind_of(OpenStruct)).once.and_return(nil)
+          allow(klass).to receive(:format_cell).with("beta", :beta, kind_of(OpenStruct)).once.and_return(nil)
 
-      #     expect(subject.alpha).to be_nil
-      #     expect(subject.beta).to be_nil
-      #   end
-      # end
+          expect(parsed_model.alpha).to be_nil
+          expect(parsed_model.beta).to be_nil
+        end
+      end
     end
 
     describe "#valid?" do
@@ -58,6 +58,7 @@ describe "Csvimporter::Import::ParsedModel" do
 
           it do
             expect(import_model_valid).to be false
+            expect(instance.errors.full_messages).to eql ["Id can't be blank"]
           end
         end
       end
@@ -83,6 +84,7 @@ describe "Csvimporter::Import::ParsedModel" do
             expect(instance.errors.full_messages).to eql(
               [
                 "Id is too short (minimum is 9 characters)",
+                "Id can't be blank",
                 "Id can't be blank"
               ]
             )

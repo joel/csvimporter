@@ -5,19 +5,35 @@ module Csvimporter
     module ParsedModel
       extend ActiveSupport::Concern
 
+      def valid?(*args)
+        super
+
+        parsed_model.valid?(*args)
+
+        is_valid = errors.empty? && parsed_model.errors.empty?
+
+        # If ParserModel carry errors, we merge them to the RowModel
+        errors.merge!(parsed_model.errors) unless parsed_model.errors.empty?
+
+        # attribute_objects was called by valid?, so we need to reset it to set the errors on the Attribute(s)
+        instance_variable_set(:@attribute_objects, nil) unless is_valid
+
+        is_valid
+      end
+
       def parsed_model
         @parsed_model ||= begin
           attribute_objects = _attribute_objects
           formatted_hash = array_to_block_hash(self.class.column_names) do |column_name|
             attribute_objects[column_name].formatted_value
           end
-          self.class.parsed_model_class.new(formatted_hash.values)
+          self.class.parsed_model_class.new(formatted_hash)
         end
       end
 
       class_methods do
         def parsed_model_class
-          @parsed_model_class ||= self
+          @parsed_model_class ||= Model
         end
 
         protected
@@ -25,6 +41,10 @@ module Csvimporter
         def parsed_model(&block)
           parsed_model_class.class_eval(&block)
         end
+      end
+
+      class Model < OpenStruct
+        include ActiveModel::Validations
       end
     end
   end

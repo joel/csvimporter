@@ -1,0 +1,16 @@
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+# Runtime dependencies
+gem "activemodel", "~> 5.2"
+gem "activerecord", "~> 5.2"
+gem "activesupport", "~> 5.2"
+
+# Development dependencies
+gem "rake"
+gem "rspec"
+gem "rubocop"
+gem "rubocop-performance"
+gem "rubocop-rake"
+gem "rubocop-rspec"
