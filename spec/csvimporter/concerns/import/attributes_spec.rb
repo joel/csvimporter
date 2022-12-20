@@ -43,7 +43,7 @@ module Csvimporter
               allow(instance.parsed_model).to receive(:valid?).twice.and_call_original
 
               expect(instance.valid?).to be false
-              expect(instance.errors.messages).to eql({ alpha: ["is invalid"], beta: [] })
+              expect(instance.errors.messages).to eql({ alpha: ["is invalid"] })
               expect(instance.errors.full_messages).to eql(["Alpha is invalid"])
 
               expect(instance.parsed_model.valid?).to be true
